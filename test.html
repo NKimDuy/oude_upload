@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+	</head>
+	<body>
+		<div id="wrapper">
+			<div> vùng này không bị tô màu </div>
+			<table>
+				<tr>
+					<td>Nguyen Kim Duy</td>
+				</tr>
+				<tr>
+					<td>Huynh Xuan Hien</td>
+				</tr>
+				<tr>
+					<td>Nguyen Ngoc Hai</td>
+				</tr> 
+			</table>
+			<button id="btnCheck">test</button>
+		</div>
+	</body>
+	<script>
+		$(document).ready(function() {
+			$("#btnCheck").click(() =>{
+				//$("#wrapper table").css("background-color","red");
+				//$("#wrapper table tr").each(function(index, tr) {
+				//	tr.css("background-color","red");
+				//	alert(tr);
+					
+				//});
+				$("#wrapper table tr").prepend("<td><input type='checkbox' /></td>");
+			});
+		});
+	</script>
+</html>
