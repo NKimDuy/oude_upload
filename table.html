@@ -7,7 +7,7 @@
 		<div class="container">
 			<div class="row">
 				<select id="tableName">
-					<option value="duy">duy</option>
+					<option value="test1">test1</option>
 				</select>
 			</div>
 			<table id="example">
@@ -18,7 +18,22 @@
 	</body>
 	<script>
 		$(document).ready(function() {
-			alert($("#tableName").val());
+			//alert($("#tableName").val());
+			$.get({
+				url:"./GetTitleTableAjax.php",
+				data: {
+					"table_name": $("#tableName").val()
+				},
+				dataType:"json",
+				success: function(result) {
+					result.forEach(item => {
+						alert(item.COLUMN_NAME);
+					});
+				},
+				complete: function() {
+					
+				}
+			});
 		});
 	</script>
 </html>

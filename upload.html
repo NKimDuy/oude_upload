@@ -96,15 +96,8 @@
 							var desired_cell = sheetName[cell_ref];
 							if (desired_cell === undefined)
 								desired_cell = "";
-							//if (desired_cell.v === undefined) {
-								//msg += desired_cell.v + ' ';
-							//	var blob = new Blob([cell_ref],
-							//	{ type: "text/plain;charset=utf-8" });
-							//	saveAs(blob, "static.txt");
-							//}
-							//msg += desired_cell.v;
+							
 							value_temp.push(addslashes(desired_cell.v));
-							//alert(desired_cell.v);
 						}
 					}
 					catch(e) {
