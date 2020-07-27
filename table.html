@@ -2,6 +2,8 @@
 <html>
 	<head>
 		<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 	</head>
 	<body>
 		<div class="container">
@@ -13,12 +15,60 @@
 			<table id="example">
 				
 			</table>
+			<div id="dialog" title="Update Row" >
+				<form>
+					<fieldset>
+						<label for="id">Id</label>
+						<input disabled type="text" name="id" id="id" />
+						<label for="name">Name</label>
+						<input type="text" name="name" id="name" />
+						<input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+					</fieldset>
+				</form>
+			</div>
 		</div>
 		
 	</body>
 	<script>
+		function updateRow(mssv) {
+			var id = $("#id"), name = $("#name");
+			id.val(mssv);
+			
+			$("#dialog").dialog({
+				height: 400,
+				width: 'auto',
+				modal:true,
+				maxWidth: 1000,
+				fluid: true,
+				my: "center",
+				at: "center",
+				buttons: {
+					"Update": function() {
+						$.get({
+							url:,
+							data: {
+								
+							},
+							dataType: "json",
+							success: function() {
+								
+							}
+						});
+						
+					},
+					"Cancel": function() {
+						$( this ).dialog( "close" );
+					}
+				},
+				close: function() {
+					$( this ).dialog( "destroy" );
+				}
+			});
+		}
+	
 		$(document).ready(function() {
-			//alert($("#tableName").val());
+		
+			var addThToTable = "<tr>";
 			$.get({
 				url:"./GetTitleTableAjax.php",
 				data: {
@@ -27,10 +77,35 @@
 				dataType:"json",
 				success: function(result) {
 					result.forEach(item => {
-						alert(item.COLUMN_NAME);
+						addThToTable += "<th>" + item.COLUMN_NAME + "</th>";
 					});
+					addThToTable += "</tr>";
+					//alert(addToTable);
+					$("#example").html(addThToTable);
 				},
 				complete: function() {
+					var addTdToTable = "";
+					$.get({
+						url:"./GetDataTableAjax.php",
+						data: {
+							"table_name": $("#tableName").val()
+						},
+						dataType:"json",
+						success: function(result) {
+							result.forEach(item => {
+								addTdToTable = "<tr>";
+								addTdToTable += "<td>" + item.id + "</td>"
+											 +"<td>" + item.name + "</td>"
+											 +"<td><a href =" + "javascript:updateRow('" + item.id + "');>Update</a></td>"
+											 +"<td><a href =''>Delete</a></td>";
+								addTdToTable += "</tr>";
+								//alert(addTdToTable);
+								$("#example").append(addTdToTable);
+							});
+							
+							
+						}
+					});
 					
 				}
 			});
