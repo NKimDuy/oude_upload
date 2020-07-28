@@ -1,30 +1,26 @@
 <?php
-	//phpinfo();
+	require_once("./connectDB.php");
+	$con = Connect();
+	$sql = "SELECT * FROM  test1" ;
+	//echo json_encode($sql);
 	
-	
-	/*
-	if (!$fp) 
+	$data = [];
+	$query = mysqli_query($con, $sql);
+	$number = mysqli_num_rows($query);
+	if ($number > 0)
 	{
-		echo 'Mở file không thành công';
+		while($row = mysqli_fetch_assoc($query))
+		{
+			$data[] = $row;
+		}
+		
+		
 	}
 	else
 	{
-		echo 'Mở file thành công';
+		
 	}
-	*/
-	$myfile = @fopen('D:\text.txt','a')or die("can't open file");;
-	if(is_resource($myfile)) 
-	{
-		$content = "\nhai ";
-		fwrite($myfile, $content);
-		fclose($myfile);
-	}
-	
-	else
-	{
-		echo "khong the ghi file";
-	}
+	var_dump($data);
 	
 	
-	
-?>
+?>  

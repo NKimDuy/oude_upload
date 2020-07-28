@@ -2,16 +2,17 @@
 	require_once("./connectDB.php");
 	$con = Connect();
 	$tableName = $_GET['table_name'];
-	$sql = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" . $tableName . "' AND TABLE_SCHEMA = 'duy'";
+	//$sql = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" . $tableName . "' AND TABLE_SCHEMA = 'duy'";
+	$sql = "SELECT * FROM " . $tableName;
 	$data = [];
-	$row = null;
 	$query = mysqli_query($con, $sql);
 	$number = mysqli_num_rows($query);
 	if ($number > 0)
 	{
-		while($row = mysqli_fetch_assoc($query))
+		while ($finfo = mysqli_fetch_field($query)) 
 		{
-			$data[] = $row;
+			//$data[] = $finfo->name;
+			array_push($data,$finfo->name);
 		}
 		
 		echo json_encode( $data ); 

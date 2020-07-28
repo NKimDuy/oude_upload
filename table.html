@@ -1,28 +1,44 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<!-- javascript/jquery -->
 		<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+		<!--------------------------------------------------------------------------------->
+		
+		<!-- bootstrap 4 -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+		
+		<!---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+		
+		
+		
 	</head>
 	<body>
 		<div class="container">
+			<button id="btnAdd">Add Record</button>
 			<div class="row">
 				<select id="tableName">
 					<option value="test1">test1</option>
 				</select>
 			</div>
-			<table id="example">
-				
-			</table>
+			
+			<table id="example"></table>
+			<div id="dialogDelete" title="Delete Row">
+				<p id="mssvDelete"></p>
+			</div>
 			<div id="dialog" title="Update Row" >
 				<form>
 					<fieldset>
-						<label for="id">Id</label>
-						<input disabled type="text" name="id" id="id" />
-						<label for="name">Name</label>
-						<input type="text" name="name" id="name" />
-						<input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+						<div class="form-group">
+							<label for="id">Id</label>
+							<input class="form-control" type="text" name="id" id="id" />
+							<label for="name">Name</label>
+							<input class="form-control" type="text" name="name" id="name" />
+							
+							<input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+						</div>
 					</fieldset>
 				</form>
 			</div>
@@ -30,10 +46,14 @@
 		
 	</body>
 	<script>
-		function updateRow(mssv) {
-			var id = $("#id"), name = $("#name");
-			id.val(mssv);
+		
+		
+		function updateRow(object) {
 			
+			var id = $("#id"), name = $("#name");
+			id.attr("disabled", true);
+			id.val(object.id);
+			name.val(object.name);
 			$("#dialog").dialog({
 				height: 400,
 				width: 'auto',
@@ -44,17 +64,56 @@
 				at: "center",
 				buttons: {
 					"Update": function() {
-						$.get({
-							url:,
+						
+						$.post({
+							url: "UpdateTableAjax.php",
 							data: {
-								
+								"row": object,
+								"table_name": $("#tableName").val()
+							},
+							dataType: "text",
+							success: function(result) {
+								alert(result);
+							}
+						});
+						//$( this ).dialog( "close" );
+					},
+					"Cancel": function() {
+						$( this ).dialog( "close" );
+					}
+				},
+				close: function() {
+					$( this ).dialog( "destroy" );
+				}
+			});
+			
+		}
+	
+		function deleteRow(mssv) {
+			$("#mssvDelete").text("delete: " + mssv);
+			$("#dialogDelete").dialog({
+				height: 'auto',
+				width: 'auto',
+				modal:true,
+				fluid: true,
+				my: "center",
+				at: "center",
+				buttons: {
+					"Do you wanna delete ?": function() {
+						
+						$.post({
+							url: "./DeleteDataTableAjax.php",
+							data: {
+								"table_name": $("#tableName").val(),
+								"mssv": mssv
 							},
 							dataType: "json",
 							success: function() {
 								
 							}
 						});
-						
+						$( this ).dialog( "close" );
+						location.reload();
 					},
 					"Cancel": function() {
 						$( this ).dialog( "close" );
@@ -67,6 +126,48 @@
 		}
 	
 		$(document).ready(function() {
+			
+			$("#btnAdd").click(() => {
+			
+				$("#id").attr("disabled", false);
+				$("#id").val("");
+				$("#name").val("");
+				
+				$("#dialog").dialog({
+					height: 400,
+					width: 'auto',
+					modal:true,
+					maxWidth: 1000,
+					fluid: true,
+					my: "center",
+					at: "center",
+					buttons: {
+						"Add": function() {
+							var data = [$("#id").val(), $("#name").val()];
+							$.post({
+								url: "./AddDataTableAjax.php",
+								data: {
+									"table_name": $("#tableName").val(),
+									"data": data
+								},
+								dataType: "text",
+								success: function(result) {
+									//alert(result);
+								}
+							});
+							$( this ).dialog("close");
+							location.reload();
+						},
+						"Cancel": function() {
+							$( this ).dialog( "close" );
+						}
+					},
+					close: function() {
+						$( this ).dialog( "destroy" );
+					}
+				});
+				
+			});
 		
 			var addThToTable = "<tr>";
 			$.get({
@@ -76,12 +177,16 @@
 				},
 				dataType:"json",
 				success: function(result) {
+					addThToTable = "<tr>";
 					result.forEach(item => {
-						addThToTable += "<th>" + item.COLUMN_NAME + "</th>";
+						
+						addThToTable += "<th>" + item + "</th>";
+						
 					});
 					addThToTable += "</tr>";
-					//alert(addToTable);
-					$("#example").html(addThToTable);
+						$("#example").append(addThToTable);
+					
+					
 				},
 				complete: function() {
 					var addTdToTable = "";
@@ -93,14 +198,19 @@
 						dataType:"json",
 						success: function(result) {
 							result.forEach(item => {
+								
+								
 								addTdToTable = "<tr>";
 								addTdToTable += "<td>" + item.id + "</td>"
 											 +"<td>" + item.name + "</td>"
-											 +"<td><a href =" + "javascript:updateRow('" + item.id + "');>Update</a></td>"
-											 +"<td><a href =''>Delete</a></td>";
+											 +"<td><a id = '" + item.id + "' href = '#'>Update</a></td>"
+											 +"<td><a href =" + "javascript:deleteRow('" + item.id + "');>Delete</a></td>";
 								addTdToTable += "</tr>";
-								//alert(addTdToTable);
 								$("#example").append(addTdToTable);
+								$("#" + item.id).on('click', function(){
+									updateRow(item);
+								});
+								//alert(item);
 							});
 							
 							
