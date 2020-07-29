@@ -5,7 +5,7 @@
 	$data = $_POST['row'];
 	
 	$column = [];
-	$sql = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" . $tableName . "' AND TABLE_SCHEMA = 'duy'";
+	$sql = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" . $tableName . "' AND TABLE_SCHEMA = 'duy' order by ORDINAL_POSITION";
 	$query = mysqli_query($con, $sql);
 	$number = mysqli_num_rows($query);
 	if ($number > 0)
@@ -19,17 +19,16 @@
 		
 		for ($i = 0 ; $i < count($column) ; $i++)
 		{
-			//$sql .= $column[$i]['COLUMN_NAME'] . " = '" . $data[$i] . "', ";
-			$sql .= $data['id'] ;
+			$sql .= $column[$i]['COLUMN_NAME'] . " = '" . $data[$i] . "', ";
 		}
-		//$sql = rtrim($sql, ", ");
-		//$sql.= " WHERE id = '" . $data[0];
+		$sql = rtrim($sql, ", ");
+		$sql.= " WHERE mssv = '" . $data[3] . "'";
 	
-		echo json_encode($sql);
+		//echo json_encode($sql);
 		try
 		{
-			//$query = mysqli_query($con, $sql);
-			//echo json_encode($sql);
+			$query = mysqli_query($con, $sql);
+			echo json_encode($sql);
 		}
 		catch(Exception $e)
 		{

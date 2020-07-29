@@ -2,8 +2,7 @@
 	require_once("./connectDB.php");
 	$con = Connect();
 	$tableName = $_GET['table_name'];
-	$sql = "SELECT * FROM  " . $tableName ;
-	//echo json_encode($sql);
+	$sql = "SELECT * FROM  " . $tableName;
 	
 	$data = [];
 	$query = mysqli_query($con, $sql);

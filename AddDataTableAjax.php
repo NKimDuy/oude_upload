@@ -15,7 +15,7 @@
 	try
 	{
 		$query = mysqli_query($con, $sql);
-		//echo json_encode("success");
+		echo json_encode($sql);
 	}
 	catch(Exception $e)
 	{

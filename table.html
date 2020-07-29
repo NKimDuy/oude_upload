@@ -1,6 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 	<head>
+		<meta charset="utf-8">
+	
 		<!-- javascript/jquery -->
 		<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -32,10 +34,85 @@
 				<form>
 					<fieldset>
 						<div class="form-group">
-							<label for="id">Id</label>
-							<input class="form-control" type="text" name="id" id="id" />
-							<label for="name">Name</label>
-							<input class="form-control" type="text" name="name" id="name" />
+						
+							<label for="txtStt">STT</label>
+							<input class="form-control" type="text" name="stt" id="txtStt" />
+							
+							<label for="txtMadvlk">Mã đơn vị liên kết</label>
+							<input class="form-control" type="text" name="maDvlk" id="txtMadvlk" />
+							
+							<label for="txtTendvlk">Tên đơn vị liên kết</label>
+							<input class="form-control" type="text" name="tenDvlk" id="txtTendvlk" />
+							
+							<label for="txtStt">MSSV</label>
+							<input class="form-control" type="text" name="mssv" id="txtMssv" />
+							
+							<label for="txtHo">Họ</label>
+							<input class="form-control" type="text" name="ho" id="txtHo" />
+							
+							<label for="txtTen">Tên</label>
+							<input class="form-control" type="text" name="ten" id="txtTen" />
+							
+							<label for="txtNgaySinh">Ngày sinh</label>
+							<input class="form-control" type="text" name="ngaySinh" id="txtNgaySinh" />
+							
+							<label for="txtNoiSinh">Nơi Sinh</label>
+							<input class="form-control" type="text" name="noiSinh" id="txtNoiSinh" />
+							
+							<label for="txtGioiTinh">Giới tính</label>
+							<input class="form-control" type="text" name="gioiTinh" id="txtGioiTinh" />
+							
+							<label for="txtDanToc">Dân tộc</label>
+							<input class="form-control" type="text" name="danToc" id="txtDanToc" />
+							
+							<label for="txtQuocTich">Quốc tịch</label>
+							<input class="form-control" type="text" name="quocTich" id="txtQuocTich" />
+							
+							<label for="txtNganhDaoTao">Ngành đào tạo</label>
+							<input class="form-control" type="text" name="nganhDaoTao" id="txtNganhDaoTao" />
+							
+							<label for="txtGiayKhaiSinh">Giấy khai sinh</label>
+							<input class="form-control" type="text" name="giayKhaiSinh" id="txtGiayKhaiSinh" />
+							
+							<label for="txtBangCap">Bằng cấp</label>
+							<input class="form-control" type="text" name="bangCap" id="txtBangCap" />
+							
+							<label for="txtHinh">Hình</label>
+							<input class="form-control" type="text" name="hinh" id="txtHinh" />
+							
+							<label for="txtPdkxcb">Phiếu đăng kí xét cấp bằng</label>
+							<input class="form-control" type="text" name="pdkxcb" id="txtPdkxcb" />
+							
+							<label for="txtCtdt">Chương trình đào tạo</label>
+							<input class="form-control" type="text" name="ctdt" id="txtCtdt" />
+							
+							<label for="txtHtdt">Hình thức đào tạo</label>
+							<input class="form-control" type="text" name="htdt" id="txtHtdt" />
+							
+							
+							<label for="txtDiem">Điểm</label>
+							<input class="form-control" type="text" name="diem" id="txtDiem" />
+							
+							<label for="txtXepLoai">Xếp loại</label>
+							<input class="form-control" type="text" name="xepLoai" id="txtXepLoai" />
+							
+							<label for="txtDktn">Điều kiện tốt nghiệp</label>
+							<input class="form-control" type="text" name="dktn" id="txtDktn" />
+							
+							<label for="txtHokd">Họ không dấu</label>
+							<input class="form-control" type="text" name="hoKd" id="txtHoKd" />
+							
+							<label for="txtTenkd">Tên không dấu</label>
+							<input class="form-control" type="text" name="tenKd" id="txtTenKd" />
+							
+							<label for="txtHoTenKd">Họ và tên không dấu</label>
+							<input class="form-control" type="text" name="hoTenKd" id="txtHoTenKd" />
+							
+							<label for="txtHocKi">Học kì</label>
+							<input class="form-control" type="text" name="hocKi" id="txtHocKi" />
+							
+							<label for="txtCthk">Chi tiết học kì</label>
+							<input class="form-control" type="text" name="cthk" id="txtCthk" />
 							
 							<input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
 						</div>
@@ -46,37 +123,76 @@
 		
 	</body>
 	<script>
-		
-		
 		function updateRow(object) {
+		
+			stt.attr("disabled",true), mssv.attr("disabled",true);
 			
-			var id = $("#id"), name = $("#name");
-			id.attr("disabled", true);
-			id.val(object.id);
-			name.val(object.name);
+			stt.val(object.stt), maDvlk.val(object.ma_dvlk), tenDvlk.val(object.ten_dvlk),
+			mssv.val(object.mssv), ho.val(object.ho), ten.val(object.ten),
+			ngaySinh.val(object.ngay_sinh), noiSinh.val(object.noi_sinh),
+			gioiTinh.val(object.gioi_tinh), danToc.val(object.dan_toc),
+			quocTich.val(object.quoc_tich), nganhDaoTao.val(object.nganh_dt),
+			giayKhaiSinh.val(object.giay_ks), bangCap.val(object.bang_cap),
+			hinh.val(object.hinh), pdkxcb.val(object.phieu_dkxcb),
+			ctdt.val(object.ct_dt), htdt.val(object.hinh_thuc_dt),
+			diem.val(object.diem), xepLoai.val(object.xep_loai),
+			dktn.val(object.dk_tn), hoKd.val(object.ho_temp),
+			tenKd.val(object.ten_temp), hoTenKd.val(object.temp),
+			hocKi.val(object.hk), cthk.val(object.chi_tiet_hk);
+				
+				
 			$("#dialog").dialog({
-				height: 400,
+				height: 'auto',
 				width: 'auto',
 				modal:true,
-				maxWidth: 1000,
 				fluid: true,
 				my: "center",
 				at: "center",
 				buttons: {
 					"Update": function() {
+						var objectTemp = [];
+						objectTemp.push(stt.val(), 
+										maDvlk.val(),
+										tenDvlk.val(),
+										mssv.val(),
+										ho.val(),
+										ten.val(),
+										ngaySinh.val(),
+										noiSinh.val(),
+										gioiTinh.val(),
+										danToc.val(),
+										quocTich.val(),
+										nganhDaoTao.val(),
+										giayKhaiSinh.val(),
+										bangCap.val(),
+										hinh.val(),
+										pdkxcb.val(),
+										ctdt.val(),
+										htdt.val(),
+										diem.val(),
+										xepLoai.val(),
+										dktn.val(),
+										hoKd.val(),
+										tenKd.val(),
+										hoTenKd.val(),
+										hocKi.val(),
+										cthk.val());
 						
 						$.post({
 							url: "UpdateTableAjax.php",
 							data: {
-								"row": object,
+								"row": objectTemp,
 								"table_name": $("#tableName").val()
 							},
-							dataType: "text",
+							dataType: "json",
 							success: function(result) {
 								alert(result);
+								console.log(objectTemp);
 							}
 						});
+						
 						//$( this ).dialog( "close" );
+						//location.reload();
 					},
 					"Cancel": function() {
 						$( this ).dialog( "close" );
@@ -127,11 +243,35 @@
 	
 		$(document).ready(function() {
 			
+			
+			var stt = $("#txtStt"), maDvlk = $("#txtMadvlk"), tenDvlk = $("#txtTendvlk"),
+				mssv = $("#txtMssv"), ho = $("#txtHo"), ten = $("#txtTen"), 
+				ngaySinh = $("#txtNgaySinh"), noiSinh = $("#txtNoiSinh"),
+				gioiTinh = $("#txtGioiTinh"), danToc = $("#txtDanToc"),
+				quocTich = $("#txtQuocTich"), nganhDaoTao = $("#txtNganhDaoTao"),
+				giayKhaiSinh = $("#txtGiayKhaiSinh"), bangCap = $("#txtBangCap"),
+				hinh = $("#txtHinh"), pdkxcb = $("#txtPdkxcb"), ctdt = $("#txtCtdt"),
+				htdt = $("#txtHtdt"), diem = $("#txtDiem"), xepLoai = $("#txtXepLoai"),
+				dktn = $("#txtDktn"), hoKd = $("#txtHoKd"), tenKd = $("#txtTenKd"),
+				hoTenKd = $("#txtHoTenKd"), hocKi = $("#txtHocKi"), cthk = $("#txtCthk");
+			
+			
 			$("#btnAdd").click(() => {
 			
-				$("#id").attr("disabled", false);
-				$("#id").val("");
-				$("#name").val("");
+				$("#mssv").attr("disabled", false);
+				
+				stt.val(""), maDvlk.val(""), tenDvlk.val(""),
+				mssv.val(""), ho.val(""), ten.val(""),
+				ngaySinh.val(""), noiSinh.val(""),
+				gioiTinh.val(""), danToc.val(""),
+				quocTich.val(""), nganhDaoTao.val(""),
+				giayKhaiSinh.val(""), bangCap.val(""),
+				hinh.val(""), pdkxcb.val(""),
+				ctdt.val(""), htdt.val(""),
+				diem.val(""), xepLoai.val(""),
+				dktn.val(""), hoKd.val(""),
+				tenKd.val(""), hoTenKd.val(""),
+				hocKi.val(""), cthk.val("");
 				
 				$("#dialog").dialog({
 					height: 400,
@@ -143,7 +283,34 @@
 					at: "center",
 					buttons: {
 						"Add": function() {
-							var data = [$("#id").val(), $("#name").val()];
+							var data = [];
+							data.push(stt.val(), 
+										maDvlk.val(),
+										tenDvlk.val(),
+										mssv.val(),
+										ho.val(),
+										ten.val(),
+										ngaySinh.val(),
+										noiSinh.val(),
+										gioiTinh.val(),
+										danToc.val(),
+										quocTich.val(),
+										nganhDaoTao.val(),
+										giayKhaiSinh.val(),
+										bangCap.val(),
+										hinh.val(),
+										pdkxcb.val(),
+										ctdt.val(),
+										htdt.val(),
+										diem.val(),
+										xepLoai.val(),
+										dktn.val(),
+										hoKd.val(),
+										tenKd.val(),
+										hoTenKd.val(),
+										hocKi.val(),
+										cthk.val());
+							
 							$.post({
 								url: "./AddDataTableAjax.php",
 								data: {
@@ -201,13 +368,37 @@
 								
 								
 								addTdToTable = "<tr>";
-								addTdToTable += "<td>" + item.id + "</td>"
-											 +"<td>" + item.name + "</td>"
-											 +"<td><a id = '" + item.id + "' href = '#'>Update</a></td>"
-											 +"<td><a href =" + "javascript:deleteRow('" + item.id + "');>Delete</a></td>";
+								addTdToTable += "<td>" + item.stt + "</td>"
+											 +"<td>" + item.ma_dvlk + "</td>"
+											 +"<td>" + item.ten_dvlk + "</td>"
+											 +"<td>" + item.mssv + "</td>"
+											 +"<td>" + item.ho + "</td>"
+											 +"<td>" + item.ten + "</td>"
+											 +"<td>" + item.ngay_sinh + "</td>"
+											 +"<td>" + item.noi_sinh + "</td>"
+											 +"<td>" + item.gioi_tinh + "</td>"
+											 +"<td>" + item.dan_toc + "</td>"
+											 +"<td>" + item.quoc_tich + "</td>"
+											 +"<td>" + item.nganh_dt + "</td>"
+											 +"<td>" + item.giay_ks + "</td>"
+											 +"<td>" + item.bang_cap + "</td>"
+											 +"<td>" + item.hinh + "</td>"
+											 +"<td>" + item.phieu_dkxcb + "</td>"
+											 +"<td>" + item.ct_dt + "</td>"
+											 +"<td>" + item.hinh_thuc_dt + "</td>"
+											 +"<td>" + item.diem + "</td>"
+											 +"<td>" + item.xep_loai + "</td>"
+											 +"<td>" + item.dk_tn + "</td>"
+											 +"<td>" + item.ho_temp + "</td>"
+											 +"<td>" + item.ten_temp + "</td>"
+											 +"<td>" + item.temp + "</td>"
+											 +"<td>" + item.hk + "</td>"
+											 +"<td>" + item.chi_tiet_hk + "</td>"
+											 +"<td><a id = '" + item.mssv + "' href = '#'>Update</a></td>"
+											 +"<td><a href =" + "javascript:deleteRow('" + item.mssv + "');>Delete</a></td>";
 								addTdToTable += "</tr>";
 								$("#example").append(addTdToTable);
-								$("#" + item.id).on('click', function(){
+								$("#" + item.mssv).on('click', function(){
 									updateRow(item);
 								});
 								//alert(item);
