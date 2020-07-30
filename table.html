@@ -38,14 +38,14 @@
 							<label for="txtStt">STT</label>
 							<input class="form-control" type="text" name="stt" id="txtStt" />
 							
+							<label for="txtStt">MSSV</label>
+							<input class="form-control" type="text" name="mssv" id="txtMssv" />
+							
 							<label for="txtMadvlk">Mã đơn vị liên kết</label>
 							<input class="form-control" type="text" name="maDvlk" id="txtMadvlk" />
 							
 							<label for="txtTendvlk">Tên đơn vị liên kết</label>
 							<input class="form-control" type="text" name="tenDvlk" id="txtTendvlk" />
-							
-							<label for="txtStt">MSSV</label>
-							<input class="form-control" type="text" name="mssv" id="txtMssv" />
 							
 							<label for="txtHo">Họ</label>
 							<input class="form-control" type="text" name="ho" id="txtHo" />
@@ -123,7 +123,119 @@
 		
 	</body>
 	<script>
+		function constructor() {
+			const stt = $("#txtStt"), maDvlk = $("#txtMadvlk"), tenDvlk = $("#txtTendvlk"),
+				mssv = $("#txtMssv"), ho = $("#txtHo"), ten = $("#txtTen"), 
+				ngaySinh = $("#txtNgaySinh"), noiSinh = $("#txtNoiSinh"),
+				gioiTinh = $("#txtGioiTinh"), danToc = $("#txtDanToc"),
+				quocTich = $("#txtQuocTich"), nganhDaoTao = $("#txtNganhDaoTao"),
+				giayKhaiSinh = $("#txtGiayKhaiSinh"), bangCap = $("#txtBangCap"),
+				hinh = $("#txtHinh"), pdkxcb = $("#txtPdkxcb"), ctdt = $("#txtCtdt"),
+				htdt = $("#txtHtdt"), diem = $("#txtDiem"), xepLoai = $("#txtXepLoai"),
+				dktn = $("#txtDktn"), hoKd = $("#txtHoKd"), tenKd = $("#txtTenKd"),
+				hoTenKd = $("#txtHoTenKd"), hocKi = $("#txtHocKi"), cthk = $("#txtCthk");
+		}
+	
+		function createRow() {
+			constructor();
+		
+			$.post({
+				url: "./GetSttDataAjax.php",
+				data: {
+					"table_name": $("#tableName").val()
+				},
+				dataType: "json",
+				success: result => {
+					alert(result["MAX(stt)"]);
+					
+					$("#mssv").attr("disabled", false);
+					stt.val(""), maDvlk.val(""), tenDvlk.val(""),
+					mssv.val(""), ho.val(""), ten.val(""),
+					ngaySinh.val(""), noiSinh.val(""),
+					gioiTinh.val(""), danToc.val(""),
+					quocTich.val(""), nganhDaoTao.val(""),
+					giayKhaiSinh.val(""), bangCap.val(""),
+					hinh.val(""), pdkxcb.val(""),
+					ctdt.val(""), htdt.val(""),
+					diem.val(""), xepLoai.val(""),
+					dktn.val(""), hoKd.val(""),
+					tenKd.val(""), hoTenKd.val(""),
+					hocKi.val(""), cthk.val("");
+					
+					$("#dialog").dialog({
+						height: 400,
+						width: 'auto',
+						modal:true,
+						maxWidth: 1000,
+						fluid: true,
+						my: "center",
+						at: "center",
+						buttons: {
+							"Add": function() {
+								var data = [];
+								data.push(stt.val(), 
+											maDvlk.val(),
+											tenDvlk.val(),
+											mssv.val(),
+											ho.val(),
+											ten.val(),
+											ngaySinh.val(),
+											noiSinh.val(),
+											gioiTinh.val(),
+											danToc.val(),
+											quocTich.val(),
+											nganhDaoTao.val(),
+											giayKhaiSinh.val(),
+											bangCap.val(),
+											hinh.val(),
+											pdkxcb.val(),
+											ctdt.val(),
+											htdt.val(),
+											diem.val(),
+											xepLoai.val(),
+											dktn.val(),
+											hoKd.val(),
+											tenKd.val(),
+											hoTenKd.val(),
+											hocKi.val(),
+											cthk.val());
+								
+								$.post({
+									url: "./AddDataTableAjax.php",
+									data: {
+										"table_name": $("#tableName").val(),
+										"data": data
+									},
+									dataType: "text",
+									success: function(result) {
+										//alert(result);
+									}
+								});
+								$( this ).dialog("close");
+								location.reload();
+							},
+							"Cancel": function() {
+								$( this ).dialog( "close" );
+							}
+						},
+						close: function() {
+							$( this ).dialog( "destroy" );
+						}
+					});
+					
+				}
+				
+			});
+			
+			
+			
+			
+			
+			
+		}
+	
 		function updateRow(object) {
+			constructor();
 		
 			stt.attr("disabled",true), mssv.attr("disabled",true);
 			
@@ -244,98 +356,13 @@
 		$(document).ready(function() {
 			
 			
-			var stt = $("#txtStt"), maDvlk = $("#txtMadvlk"), tenDvlk = $("#txtTendvlk"),
-				mssv = $("#txtMssv"), ho = $("#txtHo"), ten = $("#txtTen"), 
-				ngaySinh = $("#txtNgaySinh"), noiSinh = $("#txtNoiSinh"),
-				gioiTinh = $("#txtGioiTinh"), danToc = $("#txtDanToc"),
-				quocTich = $("#txtQuocTich"), nganhDaoTao = $("#txtNganhDaoTao"),
-				giayKhaiSinh = $("#txtGiayKhaiSinh"), bangCap = $("#txtBangCap"),
-				hinh = $("#txtHinh"), pdkxcb = $("#txtPdkxcb"), ctdt = $("#txtCtdt"),
-				htdt = $("#txtHtdt"), diem = $("#txtDiem"), xepLoai = $("#txtXepLoai"),
-				dktn = $("#txtDktn"), hoKd = $("#txtHoKd"), tenKd = $("#txtTenKd"),
-				hoTenKd = $("#txtHoTenKd"), hocKi = $("#txtHocKi"), cthk = $("#txtCthk");
 			
 			
 			$("#btnAdd").click(() => {
-			
-				$("#mssv").attr("disabled", false);
-				
-				stt.val(""), maDvlk.val(""), tenDvlk.val(""),
-				mssv.val(""), ho.val(""), ten.val(""),
-				ngaySinh.val(""), noiSinh.val(""),
-				gioiTinh.val(""), danToc.val(""),
-				quocTich.val(""), nganhDaoTao.val(""),
-				giayKhaiSinh.val(""), bangCap.val(""),
-				hinh.val(""), pdkxcb.val(""),
-				ctdt.val(""), htdt.val(""),
-				diem.val(""), xepLoai.val(""),
-				dktn.val(""), hoKd.val(""),
-				tenKd.val(""), hoTenKd.val(""),
-				hocKi.val(""), cthk.val("");
-				
-				$("#dialog").dialog({
-					height: 400,
-					width: 'auto',
-					modal:true,
-					maxWidth: 1000,
-					fluid: true,
-					my: "center",
-					at: "center",
-					buttons: {
-						"Add": function() {
-							var data = [];
-							data.push(stt.val(), 
-										maDvlk.val(),
-										tenDvlk.val(),
-										mssv.val(),
-										ho.val(),
-										ten.val(),
-										ngaySinh.val(),
-										noiSinh.val(),
-										gioiTinh.val(),
-										danToc.val(),
-										quocTich.val(),
-										nganhDaoTao.val(),
-										giayKhaiSinh.val(),
-										bangCap.val(),
-										hinh.val(),
-										pdkxcb.val(),
-										ctdt.val(),
-										htdt.val(),
-										diem.val(),
-										xepLoai.val(),
-										dktn.val(),
-										hoKd.val(),
-										tenKd.val(),
-										hoTenKd.val(),
-										hocKi.val(),
-										cthk.val());
-							
-							$.post({
-								url: "./AddDataTableAjax.php",
-								data: {
-									"table_name": $("#tableName").val(),
-									"data": data
-								},
-								dataType: "text",
-								success: function(result) {
-									//alert(result);
-								}
-							});
-							$( this ).dialog("close");
-							location.reload();
-						},
-						"Cancel": function() {
-							$( this ).dialog( "close" );
-						}
-					},
-					close: function() {
-						$( this ).dialog( "destroy" );
-					}
-				});
-				
+				createRow();
 			});
-		
+			
+			// tạo các cột
 			var addThToTable = "<tr>";
 			$.get({
 				url:"./GetTitleTableAjax.php",
@@ -355,6 +382,7 @@
 					
 					
 				},
+				// tạo các dòng
 				complete: function() {
 					var addTdToTable = "";
 					$.get({
@@ -410,6 +438,8 @@
 					
 				}
 			});
+			
+			
 		});
 	</script>
 </html>

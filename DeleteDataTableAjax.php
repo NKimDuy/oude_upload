@@ -3,7 +3,7 @@
 	$con = Connect();
 	$tableName = $_POST['table_name'];
 	$mssv = $_POST['mssv'];
-	$sql = "DELETE FROM " . $tableName . " WHERE id = '" . $mssv . "'";
+	$sql = "DELETE FROM " . $tableName . " WHERE mssv = '" . $mssv . "'";
 	
 	try
 	{
