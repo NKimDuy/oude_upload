@@ -149,18 +149,30 @@
 					alert(result["MAX(stt)"]);
 					
 					$("#mssv").attr("disabled", false);
-					stt.val(""), maDvlk.val(""), tenDvlk.val(""),
-					mssv.val(""), ho.val(""), ten.val(""),
-					ngaySinh.val(""), noiSinh.val(""),
-					gioiTinh.val(""), danToc.val(""),
-					quocTich.val(""), nganhDaoTao.val(""),
-					giayKhaiSinh.val(""), bangCap.val(""),
-					hinh.val(""), pdkxcb.val(""),
-					ctdt.val(""), htdt.val(""),
-					diem.val(""), xepLoai.val(""),
-					dktn.val(""), hoKd.val(""),
-					tenKd.val(""), hoTenKd.val(""),
-					hocKi.val(""), cthk.val("");
+					
+					$("#txtStt").val(""), $("#txtMadvlk").val(""), $("#txtTendvlk").val(""),
+					
+					$("#txtMssv").val(""), $("#txtHo").val(""), $("#txtTen").val(""),
+					
+					$("#txtNgaySinh").val(""), $("#txtNoiSinh").val(""),
+					
+					$("#txtGioiTinh").val(""), $("#txtDanToc").val(""),
+					
+					$("#txtQuocTich").val(""), $("#txtNganhDaoTao").val(""),
+					
+					$("#txtGiayKhaiSinh").val(""), $("#txtBangCap").val(""),
+					
+					$("#txtHinh").val(""), $("#txtPdkxcb").val(""),
+					
+					$("#txtCtdt").val(""), $("#txtHtdt").val(""),
+					
+					$("#txtDiem").val(""), $("#txtXepLoai").val(""),
+					
+					$("#txtDktn").val(""), $("#txtHoKd").val(""),
+					
+					$("#txtTenKd").val(""), $("#txtHoTenKd").val(""),
+					
+					$("#txtHocKi").val(""), $("#txtCthk").val("");
 					
 					$("#dialog").dialog({
 						height: 400,
@@ -173,32 +185,32 @@
 						buttons: {
 							"Add": function() {
 								var data = [];
-								data.push(stt.val(), 
-											maDvlk.val(),
-											tenDvlk.val(),
-											mssv.val(),
-											ho.val(),
-											ten.val(),
-											ngaySinh.val(),
-											noiSinh.val(),
-											gioiTinh.val(),
-											danToc.val(),
-											quocTich.val(),
-											nganhDaoTao.val(),
-											giayKhaiSinh.val(),
-											bangCap.val(),
-											hinh.val(),
-											pdkxcb.val(),
-											ctdt.val(),
-											htdt.val(),
-											diem.val(),
-											xepLoai.val(),
-											dktn.val(),
-											hoKd.val(),
-											tenKd.val(),
-											hoTenKd.val(),
-											hocKi.val(),
-											cthk.val());
+								data.push($("#txtStt").val(), 
+											$("#txtMadvlk").val(),
+											$("#txtTendvlk").val(),
+											$("#txtMssv").val(),
+											$("#txtHo").val(),
+											$("#txtTen").val(),
+											$("#txtNgaySinh").val(),
+											$("#txtNoiSinh").val(),
+											$("#txtGioiTinh").val(),
+											$("#txtDanToc").val(),
+											$("#txtQuocTich").val(),
+											$("#txtNganhDaoTao").val(),
+											$("#txtGiayKhaiSinh").val(),
+											$("#txtBangCap").val(),
+											$("#txtHinh").val(),
+											$("#txtPdkxcb").val(),
+											$("#txtCtdt").val(),
+											 $("#txtHtdt").val(),
+											$("#txtDiem").val(),
+											$("#txtXepLoai").val(),
+											$("#txtDktn").val(),
+											 $("#txtHoKd").val(),
+											$("#txtTenKd").val(),
+											$("#txtHoTenKd").val(),
+											$("#txtHocKi").val(),
+											$("#txtCthk").val());
 								
 								$.post({
 									url: "./AddDataTableAjax.php",
@@ -237,20 +249,31 @@
 		function updateRow(object) {
 			constructor();
 		
-			stt.attr("disabled",true), mssv.attr("disabled",true);
+			$("#txtStt").attr("disabled",true), $("#txtMssv").attr("disabled",true);
 			
-			stt.val(object.stt), maDvlk.val(object.ma_dvlk), tenDvlk.val(object.ten_dvlk),
-			mssv.val(object.mssv), ho.val(object.ho), ten.val(object.ten),
-			ngaySinh.val(object.ngay_sinh), noiSinh.val(object.noi_sinh),
-			gioiTinh.val(object.gioi_tinh), danToc.val(object.dan_toc),
-			quocTich.val(object.quoc_tich), nganhDaoTao.val(object.nganh_dt),
-			giayKhaiSinh.val(object.giay_ks), bangCap.val(object.bang_cap),
-			hinh.val(object.hinh), pdkxcb.val(object.phieu_dkxcb),
-			ctdt.val(object.ct_dt), htdt.val(object.hinh_thuc_dt),
-			diem.val(object.diem), xepLoai.val(object.xep_loai),
-			dktn.val(object.dk_tn), hoKd.val(object.ho_temp),
-			tenKd.val(object.ten_temp), hoTenKd.val(object.temp),
-			hocKi.val(object.hk), cthk.val(object.chi_tiet_hk);
+			$("#txtStt").val(object.stt), $("#txtMadvlk").val(object.ma_dvlk), $("#txtTendvlk").val(object.ten_dvlk),
+			
+			$("#txtMssv").val(object.mssv), $("#txtHo").val(object.ho), $("#txtTen").val(object.ten),
+			
+			$("#txtNgaySinh").val(object.ngay_sinh), $("#txtNoiSinh").val(object.noi_sinh),
+			
+			$("#txtGioiTinh").val(object.gioi_tinh), $("#txtDanToc").val(object.dan_toc),
+			
+			$("#txtQuocTich").val(object.quoc_tich), $("#txtNganhDaoTao").val(object.nganh_dt),
+			
+			$("#txtGiayKhaiSinh").val(object.giay_ks), $("#txtBangCap").val(object.bang_cap),
+			
+			$("#txtHinh").val(object.hinh), $("#txtPdkxcb").val(object.phieu_dkxcb),
+			
+			$("#txtCtdt").val(object.ct_dt), $("#txtHtdt").val(object.hinh_thuc_dt),
+			
+			$("#txtDiem").val(object.diem), $("#txtXepLoai").val(object.xep_loai),
+			
+			$("#txtDktn").val(object.dk_tn), $("#txtHoKd").val(object.ho_temp),
+			
+			$("#txtTenKd").val(object.ten_temp), $("#txtHoTenKd").val(object.temp),
+			
+			$("#txtHocKi").val(object.hk), $("#txtCthk").val(object.chi_tiet_hk);
 				
 				
 			$("#dialog").dialog({
@@ -263,32 +286,32 @@
 				buttons: {
 					"Update": function() {
 						var objectTemp = [];
-						objectTemp.push(stt.val(), 
-										maDvlk.val(),
-										tenDvlk.val(),
-										mssv.val(),
-										ho.val(),
-										ten.val(),
-										ngaySinh.val(),
-										noiSinh.val(),
-										gioiTinh.val(),
-										danToc.val(),
-										quocTich.val(),
-										nganhDaoTao.val(),
-										giayKhaiSinh.val(),
-										bangCap.val(),
-										hinh.val(),
-										pdkxcb.val(),
-										ctdt.val(),
-										htdt.val(),
-										diem.val(),
-										xepLoai.val(),
-										dktn.val(),
-										hoKd.val(),
-										tenKd.val(),
-										hoTenKd.val(),
-										hocKi.val(),
-										cthk.val());
+						objectTemp.push($("#txtStt").val(), 
+										$("#txtMadvlk").val(),
+										$("#txtTendvlk").val(),
+										$("#txtMssv").val(),
+										$("#txtHo").val(),
+										$("#txtTen").val(),
+										$("#txtNgaySinh").val(),
+										$("#txtNoiSinh").val(),
+										$("#txtGioiTinh").val(),
+										$("#txtDanToc").val(),
+										$("#txtQuocTich").val(),
+										$("#txtNganhDaoTao").val(),
+										$("#txtGiayKhaiSinh").val(),
+										$("#txtBangCap").val(),
+										$("#txtHinh").val(),
+										$("#txtPdkxcb").val(),
+										$("#txtCtdt").val(),
+										$("#txtHtdt").val(),
+										$("#txtDiem").val(),
+										$("#txtXepLoai").val(),
+										$("#txtDktn").val(),
+										$("#txtHoKd").val(),
+										$("#txtTenKd").val(),
+										$("#txtHoTenKd").val(),
+										$("#txtHocKi").val(),
+										$("#txtCthk").val());
 						
 						$.post({
 							url: "UpdateTableAjax.php",
@@ -354,11 +377,6 @@
 		}
 	
 		$(document).ready(function() {
-			
-			
-			
-			
-			$("#btnAdd").click(() => {
 				createRow();
 			});
 			
