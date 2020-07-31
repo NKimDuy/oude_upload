@@ -11,10 +11,19 @@
 		
 		<!-- bootstrap 4 -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-		
 		<!---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
 		
+		<!-- datatable -->
 		
+		<!---->
+		
+		<style>
+			.error {
+				color:red;
+				border: 1px solid transparent;
+				padding: 0.3em;
+			}
+		</style>
 		
 	</head>
 	<body>
@@ -30,7 +39,8 @@
 			<div id="dialogDelete" title="Delete Row">
 				<p id="mssvDelete"></p>
 			</div>
-			<div id="dialog" title="Update Row" >
+			<div id="dialog" style="display:none;">
+				<p class="error">các trường có dấu ( * ) là bắt buộc.</p>
 				<form>
 					<fieldset>
 						<div class="form-group">
@@ -59,8 +69,12 @@
 							<label for="txtNoiSinh">Nơi Sinh</label>
 							<input class="form-control" type="text" name="noiSinh" id="txtNoiSinh" />
 							
+							
 							<label for="txtGioiTinh">Giới tính</label>
-							<input class="form-control" type="text" name="gioiTinh" id="txtGioiTinh" />
+							<select class="custom-select" id="txtGioiTinh">
+								<option value="Nam">Nam</option>
+								<option value="Nữ">Nữ</option>
+							</select>
 							
 							<label for="txtDanToc">Dân tộc</label>
 							<input class="form-control" type="text" name="danToc" id="txtDanToc" />
@@ -77,18 +91,27 @@
 							<label for="txtBangCap">Bằng cấp</label>
 							<input class="form-control" type="text" name="bangCap" id="txtBangCap" />
 							
+							
 							<label for="txtHinh">Hình</label>
-							<input class="form-control" type="text" name="hinh" id="txtHinh" />
+							<select class="custom-select" id="txtHinh">
+								<option value="HỢP LỆ">HỢP LỆ</option>
+								<option value="BỔ SUNG">BỔ SUNG</option>
+							</select>
 							
 							<label for="txtPdkxcb">Phiếu đăng kí xét cấp bằng</label>
-							<input class="form-control" type="text" name="pdkxcb" id="txtPdkxcb" />
+							<select class="custom-select" id="txtPdkxcb">
+								<option value="HỢP LỆ">HỢP LỆ</option>
+								<option value="BỔ SUNG">BỔ SUNG</option>
+							</select>
 							
 							<label for="txtCtdt">Chương trình đào tạo</label>
-							<input class="form-control" type="text" name="ctdt" id="txtCtdt" />
+							<select class="custom-select" id="txtCtdt">
+								<option value="HOÀN THÀNH">HOÀN THÀNH</option>
+								<option value="CHƯA HOÀN THÀNH">CHƯA HOÀN THÀNH</option>
+							</select>
 							
 							<label for="txtHtdt">Hình thức đào tạo</label>
 							<input class="form-control" type="text" name="htdt" id="txtHtdt" />
-							
 							
 							<label for="txtDiem">Điểm</label>
 							<input class="form-control" type="text" name="diem" id="txtDiem" />
@@ -97,7 +120,10 @@
 							<input class="form-control" type="text" name="xepLoai" id="txtXepLoai" />
 							
 							<label for="txtDktn">Điều kiện tốt nghiệp</label>
-							<input class="form-control" type="text" name="dktn" id="txtDktn" />
+							<select class="custom-select" id="txtDktn">
+								<option value="Đủ điều kiện">Đủ điều kiện</option>
+								<option value="Chưa đủ điều kiện">Chưa đủ điều kiện</option>
+							</select>
 							
 							<label for="txtHokd">Họ không dấu</label>
 							<input class="form-control" type="text" name="hoKd" id="txtHoKd" />
@@ -123,22 +149,93 @@
 		
 	</body>
 	<script>
-		function constructor() {
-			const stt = $("#txtStt"), maDvlk = $("#txtMadvlk"), tenDvlk = $("#txtTendvlk"),
-				mssv = $("#txtMssv"), ho = $("#txtHo"), ten = $("#txtTen"), 
-				ngaySinh = $("#txtNgaySinh"), noiSinh = $("#txtNoiSinh"),
-				gioiTinh = $("#txtGioiTinh"), danToc = $("#txtDanToc"),
-				quocTich = $("#txtQuocTich"), nganhDaoTao = $("#txtNganhDaoTao"),
-				giayKhaiSinh = $("#txtGiayKhaiSinh"), bangCap = $("#txtBangCap"),
-				hinh = $("#txtHinh"), pdkxcb = $("#txtPdkxcb"), ctdt = $("#txtCtdt"),
-				htdt = $("#txtHtdt"), diem = $("#txtDiem"), xepLoai = $("#txtXepLoai"),
-				dktn = $("#txtDktn"), hoKd = $("#txtHoKd"), tenKd = $("#txtTenKd"),
-				hoTenKd = $("#txtHoTenKd"), hocKi = $("#txtHocKi"), cthk = $("#txtCthk");
+		
+		function updateTips(text) {
+			$(".error")
+			.text(text)
+			.addClass("ui-state-highlight");
+			setTimeout(function() {
+				element.removeClass("ui-state-highlight", 1500);
+			}, 500 );
+		}
+		
+		function checkLength(element, column, min, max) {
+			if ( element.val().length > max || element.val().length < min ) {
+				element.addClass("ui-state-error");
+				updateTips("Length of " + column + " must be between " +
+				min + " and " + max + ".");
+				return false;
+			} else {
+				return true;
+			}
+		}
+		
+		function checkRegexp( element, regexp, errorMessage ) {
+			if ( !( regexp.test(element.val()))) {
+				element.addClass("ui-state-error");
+				updateTips(errorMessage);
+				return false;
+			} else {
+				return true;
+			}
+		}
+	
+		function regexpForCreateUpdate(strUrl, dialogId) {
+			var data = [];
+			data.push($("#txtStt").val(),
+						$("#txtMadvlk").val(),
+						$("#txtTendvlk").val(),
+						$("#txtMssv").val(),
+						$("#txtHo").val(),
+						$("#txtTen").val(),
+						$("#txtNgaySinh").val(),
+						$("#txtNoiSinh").val(),
+						$("#txtGioiTinh").val(),
+						$("#txtDanToc").val(),
+						$("#txtQuocTich").val(),
+						$("#txtNganhDaoTao").val(),
+						$("#txtGiayKhaiSinh").val(),
+						$("#txtBangCap").val(),
+						$("#txtHinh").val(),
+						$("#txtPdkxcb").val(),
+						$("#txtCtdt").val(),
+						$("#txtHtdt").val(),
+						$("#txtDiem").val(),
+						$("#txtXepLoai").val(),
+						$("#txtDktn").val(),
+						$("#txtHoKd").val(),
+						$("#txtTenKd").val(),
+						$("#txtHoTenKd").val(),
+						$("#txtHocKi").val(),
+						$("#txtCthk").val());
+			$.ajax({
+				//url: "./UpdateTableAjax.php",
+				url: strUrl,
+				method: 'post',
+				data: {
+					"row": data,
+					"table_name": $("#tableName").val()
+				},
+				dataType: "json",
+				'success': function(result) {
+					//alert(strUrl);
+					alert(result);
+					
+				},
+				'complete': function(){
+					alert(strUrl);
+					$(dialogId).dialog( "close" );
+					loadTable();
+				}
+			});
+			
+			//$( this ).dialog( "close" );
+			//location.reload();
 		}
 	
 		function createRow() {
-			constructor();
-		
+			$("#mssv").attr("disabled", false);
+			$("#dialog").attr("title", "Create Row"), $("#txtStt").attr("disabled",true);
 			$.post({
 				url: "./GetSttDataAjax.php",
 				data: {
@@ -146,11 +243,8 @@
 				},
 				dataType: "json",
 				success: result => {
-					alert(result["MAX(stt)"]);
 					
-					$("#mssv").attr("disabled", false);
-					
-					$("#txtStt").val(""), $("#txtMadvlk").val(""), $("#txtTendvlk").val(""),
+					$("#txtStt").val(parseInt(result["MAX(stt)"]) + 1), $("#txtMadvlk").val(""), $("#txtTendvlk").val(""),
 					
 					$("#txtMssv").val(""), $("#txtHo").val(""), $("#txtTen").val(""),
 					
@@ -175,56 +269,16 @@
 					$("#txtHocKi").val(""), $("#txtCthk").val("");
 					
 					$("#dialog").dialog({
-						height: 400,
-						width: 'auto',
+						height: 'auto',
+						width: 1000,
 						modal:true,
-						maxWidth: 1000,
 						fluid: true,
 						my: "center",
 						at: "center",
 						buttons: {
 							"Add": function() {
-								var data = [];
-								data.push($("#txtStt").val(), 
-											$("#txtMadvlk").val(),
-											$("#txtTendvlk").val(),
-											$("#txtMssv").val(),
-											$("#txtHo").val(),
-											$("#txtTen").val(),
-											$("#txtNgaySinh").val(),
-											$("#txtNoiSinh").val(),
-											$("#txtGioiTinh").val(),
-											$("#txtDanToc").val(),
-											$("#txtQuocTich").val(),
-											$("#txtNganhDaoTao").val(),
-											$("#txtGiayKhaiSinh").val(),
-											$("#txtBangCap").val(),
-											$("#txtHinh").val(),
-											$("#txtPdkxcb").val(),
-											$("#txtCtdt").val(),
-											 $("#txtHtdt").val(),
-											$("#txtDiem").val(),
-											$("#txtXepLoai").val(),
-											$("#txtDktn").val(),
-											 $("#txtHoKd").val(),
-											$("#txtTenKd").val(),
-											$("#txtHoTenKd").val(),
-											$("#txtHocKi").val(),
-											$("#txtCthk").val());
+								regexpForCreateUpdate("./AddDataTableAjax.php", "#dialog");
 								
-								$.post({
-									url: "./AddDataTableAjax.php",
-									data: {
-										"table_name": $("#tableName").val(),
-										"data": data
-									},
-									dataType: "text",
-									success: function(result) {
-										//alert(result);
-									}
-								});
-								$( this ).dialog("close");
-								location.reload();
 							},
 							"Cancel": function() {
 								$( this ).dialog( "close" );
@@ -238,16 +292,10 @@
 				}
 				
 			});
-			
-			
-			
-			
-			
-			
 		}
 	
 		function updateRow(object) {
-			constructor();
+			$("#dialog").attr("title", "Update Row");
 		
 			$("#txtStt").attr("disabled",true), $("#txtMssv").attr("disabled",true);
 			
@@ -278,56 +326,14 @@
 				
 			$("#dialog").dialog({
 				height: 'auto',
-				width: 'auto',
+				width: 1000,
 				modal:true,
 				fluid: true,
 				my: "center",
 				at: "center",
 				buttons: {
-					"Update": function() {
-						var objectTemp = [];
-						objectTemp.push($("#txtStt").val(), 
-										$("#txtMadvlk").val(),
-										$("#txtTendvlk").val(),
-										$("#txtMssv").val(),
-										$("#txtHo").val(),
-										$("#txtTen").val(),
-										$("#txtNgaySinh").val(),
-										$("#txtNoiSinh").val(),
-										$("#txtGioiTinh").val(),
-										$("#txtDanToc").val(),
-										$("#txtQuocTich").val(),
-										$("#txtNganhDaoTao").val(),
-										$("#txtGiayKhaiSinh").val(),
-										$("#txtBangCap").val(),
-										$("#txtHinh").val(),
-										$("#txtPdkxcb").val(),
-										$("#txtCtdt").val(),
-										$("#txtHtdt").val(),
-										$("#txtDiem").val(),
-										$("#txtXepLoai").val(),
-										$("#txtDktn").val(),
-										$("#txtHoKd").val(),
-										$("#txtTenKd").val(),
-										$("#txtHoTenKd").val(),
-										$("#txtHocKi").val(),
-										$("#txtCthk").val());
-						
-						$.post({
-							url: "UpdateTableAjax.php",
-							data: {
-								"row": objectTemp,
-								"table_name": $("#tableName").val()
-							},
-							dataType: "json",
-							success: function(result) {
-								alert(result);
-								console.log(objectTemp);
-							}
-						});
-						
-						//$( this ).dialog( "close" );
-						//location.reload();
+					"Update": function(){
+						regexpForCreateUpdate("./UpdateTableAjax.php", "#dialog");
 					},
 					"Cancel": function() {
 						$( this ).dialog( "close" );
@@ -339,7 +345,9 @@
 			});
 			
 		}
-	
+		
+		
+		
 		function deleteRow(mssv) {
 			$("#mssvDelete").text("delete: " + mssv);
 			$("#dialogDelete").dialog({
@@ -376,10 +384,8 @@
 			});
 		}
 	
-		$(document).ready(function() {
-				createRow();
-			});
-			
+	
+		function loadTable() {
 			// tạo các cột
 			var addThToTable = "<tr>";
 			$.get({
@@ -389,7 +395,7 @@
 				},
 				dataType:"json",
 				success: function(result) {
-					addThToTable = "<tr>";
+					addThToTable = "<tr><th></th><th></th>";
 					result.forEach(item => {
 						
 						addThToTable += "<th>" + item + "</th>";
@@ -414,7 +420,9 @@
 								
 								
 								addTdToTable = "<tr>";
-								addTdToTable += "<td>" + item.stt + "</td>"
+								addTdToTable += "<td><a id = '" + item.mssv + "' href = '#'>Update</a></td>"
+											 +"<td><a href =" + "javascript:deleteRow('" + item.mssv + "');>Delete</a></td>"
+											 + "<td>" + item.stt + "</td>"
 											 +"<td>" + item.ma_dvlk + "</td>"
 											 +"<td>" + item.ten_dvlk + "</td>"
 											 +"<td>" + item.mssv + "</td>"
@@ -439,23 +447,28 @@
 											 +"<td>" + item.ten_temp + "</td>"
 											 +"<td>" + item.temp + "</td>"
 											 +"<td>" + item.hk + "</td>"
-											 +"<td>" + item.chi_tiet_hk + "</td>"
-											 +"<td><a id = '" + item.mssv + "' href = '#'>Update</a></td>"
-											 +"<td><a href =" + "javascript:deleteRow('" + item.mssv + "');>Delete</a></td>";
+											 +"<td>" + item.chi_tiet_hk + "</td>";
+											
 								addTdToTable += "</tr>";
 								$("#example").append(addTdToTable);
 								$("#" + item.mssv).on('click', function(){
 									updateRow(item);
 								});
-								//alert(item);
 							});
-							
-							
 						}
 					});
 					
 				}
 			});
+		}
+		
+		$(document).ready(function() {
+		
+			$("#btnAdd").click( () => {
+				createRow();
+			});
+			
+			loadTable();
 			
 			
 		});
