@@ -14,7 +14,8 @@
 		<!---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
 		
 		<!-- datatable -->
-		
+		<script type="text/javascript" src="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css"></script>
+		<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js">
 		<!---->
 		
 		<style>
@@ -28,19 +29,31 @@
 	</head>
 	<body>
 		<div class="container">
-			<button id="btnAdd">Add Record</button>
+			
 			<div class="row">
-				<select id="tableName">
-					<option value="test1">test1</option>
-				</select>
+				<div class ="col">
+					<form class="form-inline">
+						<div class="form-group mx-sm-3 mb-2">
+							<label for="tableName" class="sr-only">Các bảng hiện có trong cơ sở dữ liệu</label>
+							<select class="custom-select form-control" id="tableName">
+								<option value="test1">test1</option>
+							</select>
+						</div>
+						<button id="btnAdd" class ="btn btn-primary">Thêm dòng mới</button>
+					</form>
+				</div>
+				
+			</div>
+			<div class="row">
+				<table id="example" class="display" style="width:100%"></table>
 			</div>
 			
-			<table id="example"></table>
+			
 			<div id="dialogDelete" title="Delete Row">
 				<p id="mssvDelete"></p>
 			</div>
+			
 			<div id="dialog" style="display:none;">
-				<p class="error">các trường có dấu ( * ) là bắt buộc.</p>
 				<form>
 					<fieldset>
 						<div class="form-group">
@@ -144,6 +157,7 @@
 						</div>
 					</fieldset>
 				</form>
+				<p class="error">các trường có dấu ( * ) là bắt buộc.</p>
 			</div>
 		</div>
 		
@@ -162,8 +176,8 @@
 		function checkLength(element, column, min, max) {
 			if ( element.val().length > max || element.val().length < min ) {
 				element.addClass("ui-state-error");
-				updateTips("Length of " + column + " must be between " +
-				min + " and " + max + ".");
+				updateTips("độ dài  " + column + " phải nằm trong khoảng " +
+				min + " đến " + max + ".");
 				return false;
 			} else {
 				return true;
@@ -182,7 +196,51 @@
 	
 		function regexpForCreateUpdate(strUrl, dialogId) {
 			var data = [];
-			data.push($("#txtStt").val(),
+			var valid = true;
+			valid = valid && checkLength($("#txtMadvlk"),"Mã đơn vị liên kết", 0, 15);
+			valid = valid && checkLength($("#txtTendvlk"),"Tên đơn vị liên kết", 0, 500);
+			valid = valid && checkLength($("#txtMssv"),"Mã số sinh viên", 0, 15);
+			valid = valid && checkLength($("#txtHo"),"Họ", 0, 50);
+			valid = valid && checkLength($("#txtTen"),"Tên", 0, 15);
+			valid = valid && checkLength($("#txtNgaySinh"),"ngày sinh", 0, 5);
+			valid = valid && checkLength($("#txtNoiSinh"),"Nơi sinh", 0, 50);
+			valid = valid && checkLength($("#txtDanToc"),"Dân tộc", 0, 15);
+			valid = valid && checkLength($("#txtQuocTich"),"Quốc tịch", 0, 50);
+			valid = valid && checkLength($("#txtNganhDaoTao"),"Ngành đào tạo", 0, 100);
+			valid = valid && checkLength($("#txtGiayKhaiSinh"),"Giấy khai sinh", 0, 50);
+			valid = valid && checkLength($("#txtBangCap"),"Bằng cấp", 0, 50);
+			valid = valid && checkLength($("#txtHtdt"),"Hình thức đào tạo", 0, 50);
+			valid = valid && checkLength($("#txtDiem"),"Điểm", 0, 5);
+			valid = valid && checkLength($("#txtXepLoai"),"Xếp loại", 0, 50);
+			valid = valid && checkLength($("#txtHoKd"),"Họ không dấu", 0, 50);
+			valid = valid && checkLength($("#txtTenKd"),"Tên không dấu", 0, 15);
+			valid = valid && checkLength($("#txtHoTenKd"),"Họ và tên không dấu", 0, 100);
+			valid = valid && checkLength($("#txtHocKi"),"Học kì ", 0, 50);
+			valid = valid && checkLength($("#txtCthk"),"Chi tiết học kì", 0, 50);
+			
+			valid = valid && checkRegexp($("#txtMssv"), /^([0-9a-zA-Z])+$/, "Mã số sinh viên bao gồm số hoặc chữ (viết thường hoặc viết hoa)");
+			valid = valid && checkRegexp($("#txtMadvlk"), /^([0-9a-zA-Z])+$/, "Mã đơn vị liên kết bao gồm số hoặc chữ (viết thường hoặc viết hoa)");
+			valid = valid && checkRegexp($("#txtTendvlk"), /^([0-9a-zA-Z])+$/, "Tên đơn vị liên kết bao gồm số hoặc chữ (viết thường hoặc viết hoa)");
+			valid = valid && checkRegexp($("#txtHo"), /^([a-zA-Z])+$/, "Họ bao gồm chữ (viết thường hoặc viết hoa)");
+			valid = valid && checkRegexp($("#txtTen"), /^([a-zA-Z])+$/, "Tên bao gồm chữ (viết thường hoặc viết hoa)");
+			valid = valid && checkRegexp($("#txtNoiSinh"), /^([a-zA-Z])+$/, "Nơi sinh bao gồm chữ (viết thường hoặc viết hoa)");
+			valid = valid && checkRegexp($("#txtDanToc"), /^([a-zA-Z])+$/, "Dân tộc bao gồm chữ (viết thường hoặc viết hoa)");
+			valid = valid && checkRegexp($("#txtQuocTich"), /^([a-zA-Z])+$/, "Quốc tịch bao gồm chữ (viết thường hoặc viết hoa)");
+			valid = valid && checkRegexp($("#txtNganhDaoTao"), /^([a-zA-Z])+$/, "Ngành đào tạo bao gồm chữ (viết thường hoặc viết hoa)");
+			valid = valid && checkRegexp($("#txtGiayKhaiSinh"), /^([a-zA-Z])+$/, "Giấy khai sinh bao gồm chữ (viết thường hoặc viết hoa)");
+			valid = valid && checkRegexp($("#txtHtdt"), /^([a-zA-Z])+$/, "Hình thức đào tạo bao gồm chữ (viết thường hoặc viết hoa)");
+			valid = valid && checkRegexp($("#txtDiem"), /^([0-9])+$/, "Điểm phải là số");
+			valid = valid && checkRegexp($("#txtXepLoai"), /^([a-zA-Z])+$/, "Xếp loại đào tạo bao gồm chữ (viết thường hoặc viết hoa)");
+			valid = valid && checkRegexp($("#txtHoKd"), /^([a-zA-Z])+$/, "Họ không dấu bao gồm chữ (viết thường hoặc viết hoa)");
+			valid = valid && checkRegexp($("#txtTenKd"), /^([a-zA-Z])+$/, "Tên không dấu bao gồm chữ (viết thường hoặc viết hoa)");
+			valid = valid && checkRegexp($("#txtHoTenKd"), /^([a-zA-Z])+$/, "Họ và tên không dấu bao gồm chữ (viết thường hoặc viết hoa)");
+			valid = valid && checkRegexp($("#txtHocKi"), /^[a-z]([0-9a-z_\s])+$/i, "Họ kì gồm các kí tự số, chữ, dấu _, và phải bắt đầu là kí tự");
+			valid = valid && checkRegexp($("#txtBangCap"), /^[a-z]([0-9a-z-\s])+$/i, "Bằng cấp gồm các kí tự số, chữ, dấu -, và phải bắt đầu là kí tự");
+			valid = valid && checkRegexp($("#txtCthk"), /^[a-z]([0-9a-z-\s])+$/i, "Chi tiết học kì gồm các kí tự số, chữ, dấu -, và phải bắt đầu là kí tự");
+			
+			
+			if (valid) {
+				data.push($("#txtStt").val(),
 						$("#txtMadvlk").val(),
 						$("#txtTendvlk").val(),
 						$("#txtMssv").val(),
@@ -208,29 +266,28 @@
 						$("#txtHoTenKd").val(),
 						$("#txtHocKi").val(),
 						$("#txtCthk").val());
-			$.ajax({
-				//url: "./UpdateTableAjax.php",
-				url: strUrl,
-				method: 'post',
-				data: {
-					"row": data,
-					"table_name": $("#tableName").val()
-				},
-				dataType: "json",
-				'success': function(result) {
-					//alert(strUrl);
-					alert(result);
-					
-				},
-				'complete': function(){
-					alert(strUrl);
-					$(dialogId).dialog( "close" );
-					loadTable();
-				}
-			});
-			
-			//$( this ).dialog( "close" );
-			//location.reload();
+				$.ajax({
+					//url: "./UpdateTableAjax.php",
+					url: strUrl,
+					method: 'post',
+					data: {
+						"row": data,
+						"table_name": $("#tableName").val()
+					},
+					dataType: "json",
+					'success': function(result) {
+						//alert(strUrl);
+						alert(result);
+						
+					},
+					'complete': function(){
+						alert(strUrl);
+						$(dialogId).dialog( "close" );
+						loadTable();
+					}
+				});
+			}
+			return valid;
 		}
 	
 		function createRow() {
@@ -294,60 +351,71 @@
 			});
 		}
 	
-		function updateRow(object) {
+		function updateRow(mssv) {
 			$("#dialog").attr("title", "Update Row");
-		
 			$("#txtStt").attr("disabled",true), $("#txtMssv").attr("disabled",true);
-			
-			$("#txtStt").val(object.stt), $("#txtMadvlk").val(object.ma_dvlk), $("#txtTendvlk").val(object.ten_dvlk),
-			
-			$("#txtMssv").val(object.mssv), $("#txtHo").val(object.ho), $("#txtTen").val(object.ten),
-			
-			$("#txtNgaySinh").val(object.ngay_sinh), $("#txtNoiSinh").val(object.noi_sinh),
-			
-			$("#txtGioiTinh").val(object.gioi_tinh), $("#txtDanToc").val(object.dan_toc),
-			
-			$("#txtQuocTich").val(object.quoc_tich), $("#txtNganhDaoTao").val(object.nganh_dt),
-			
-			$("#txtGiayKhaiSinh").val(object.giay_ks), $("#txtBangCap").val(object.bang_cap),
-			
-			$("#txtHinh").val(object.hinh), $("#txtPdkxcb").val(object.phieu_dkxcb),
-			
-			$("#txtCtdt").val(object.ct_dt), $("#txtHtdt").val(object.hinh_thuc_dt),
-			
-			$("#txtDiem").val(object.diem), $("#txtXepLoai").val(object.xep_loai),
-			
-			$("#txtDktn").val(object.dk_tn), $("#txtHoKd").val(object.ho_temp),
-			
-			$("#txtTenKd").val(object.ten_temp), $("#txtHoTenKd").val(object.temp),
-			
-			$("#txtHocKi").val(object.hk), $("#txtCthk").val(object.chi_tiet_hk);
-				
-				
-			$("#dialog").dialog({
-				height: 'auto',
-				width: 1000,
-				modal:true,
-				fluid: true,
-				my: "center",
-				at: "center",
-				buttons: {
-					"Update": function(){
-						regexpForCreateUpdate("./UpdateTableAjax.php", "#dialog");
-					},
-					"Cancel": function() {
-						$( this ).dialog( "close" );
-					}
+			$.post({
+				url: "./GetOneDataAjax.php",
+				data: {
+					'mssv':mssv,
+					"table_name": $("#tableName").val(),
 				},
-				close: function() {
-					$( this ).dialog( "destroy" );
+				dataType: "json",
+				success: function(object) {
+					alert(object[0].ma_dvlk);
+				
+					$("#txtStt").val(object[0].stt), $("#txtMadvlk").val(object[0].ma_dvlk), $("#txtTendvlk").val(object[0].ten_dvlk),
+			
+					$("#txtMssv").val(object[0].mssv), $("#txtHo").val(object[0].ho), $("#txtTen").val(object[0].ten),
+					
+					$("#txtNgaySinh").val(object[0].ngay_sinh), $("#txtNoiSinh").val(object[0].noi_sinh),
+					
+					$("#txtGioiTinh").val(object[0].gioi_tinh), $("#txtDanToc").val(object[0].dan_toc),
+					
+					$("#txtQuocTich").val(object[0].quoc_tich), $("#txtNganhDaoTao").val(object[0].nganh_dt),
+					
+					$("#txtGiayKhaiSinh").val(object[0].giay_ks), $("#txtBangCap").val(object[0].bang_cap),
+					
+					$("#txtHinh").val(object[0].hinh), $("#txtPdkxcb").val(object[0].phieu_dkxcb),
+					
+					$("#txtCtdt").val(object[0].ct_dt), $("#txtHtdt").val(object[0].hinh_thuc_dt),
+					
+					$("#txtDiem").val(object[0].diem), $("#txtXepLoai").val(object[0].xep_loai),
+					
+					$("#txtDktn").val(object[0].dk_tn), $("#txtHoKd").val(object[0].ho_temp),
+					
+					$("#txtTenKd").val(object[0].ten_temp), $("#txtHoTenKd").val(object[0].temp),
+					
+					$("#txtHocKi").val(object[0].hk), $("#txtCthk").val(object[0].chi_tiet_hk);
+					
+					
+					$("#dialog").dialog({
+						height: 'auto',
+						width: 1000,
+						modal:true,
+						fluid: true,
+						my: "center",
+						at: "center",
+						buttons: {
+							"Update": function(){
+								regexpForCreateUpdate("./UpdateTableAjax.php", "#dialog");
+							},
+							"Cancel": function() {
+								$( this ).dialog( "close" );
+							}
+						},
+						close: function() {
+							$( this ).dialog( "destroy" );
+						}
+					});
+					
+				
 				}
 			});
 			
+			
 		}
-		
-		
-		
+			
 		function deleteRow(mssv) {
 			$("#mssvDelete").text("delete: " + mssv);
 			$("#dialogDelete").dialog({
@@ -384,8 +452,10 @@
 			});
 		}
 	
-	
 		function loadTable() {
+			
+			$("#example tr").remove(); // xóa các dòng của bảng trước khi thêm hoặc sửa
+			
 			// tạo các cột
 			var addThToTable = "<tr>";
 			$.get({
@@ -395,20 +465,20 @@
 				},
 				dataType:"json",
 				success: function(result) {
-					addThToTable = "<tr><th></th><th></th>";
+					addThToTable = "<thead><tr><th> </th><th> </th>";
 					result.forEach(item => {
 						
 						addThToTable += "<th>" + item + "</th>";
 						
 					});
-					addThToTable += "</tr>";
+					addThToTable += "</tr></thead>";
 						$("#example").append(addThToTable);
 					
 					
 				},
 				// tạo các dòng
 				complete: function() {
-					var addTdToTable = "";
+					var addTdToTable = "<tbody>"; // "";
 					$.get({
 						url:"./GetDataTableAjax.php",
 						data: {
@@ -417,10 +487,9 @@
 						dataType:"json",
 						success: function(result) {
 							result.forEach(item => {
-								
-								
-								addTdToTable = "<tr>";
-								addTdToTable += "<td><a id = '" + item.mssv + "' href = '#'>Update</a></td>"
+								addTdToTable += "<tr>"; // +=
+								addTdToTable += "<td><a href =" + "javascript:updateRow('" + item.mssv + "');>Update</a></td>"
+								//addTdToTable += "<td><a id = '" + item.mssv + "' href = '#'>Update</a></td>"
 											 +"<td><a href =" + "javascript:deleteRow('" + item.mssv + "');>Delete</a></td>"
 											 + "<td>" + item.stt + "</td>"
 											 +"<td>" + item.ma_dvlk + "</td>"
@@ -450,11 +519,15 @@
 											 +"<td>" + item.chi_tiet_hk + "</td>";
 											
 								addTdToTable += "</tr>";
-								$("#example").append(addTdToTable);
-								$("#" + item.mssv).on('click', function(){
-									updateRow(item);
-								});
+								//$("#example").append(addTdToTable);
+								//$("#" + item.mssv).click(() => {
+									//updateRow(item);
+									//alert(item.mssv);
+								//});
 							});
+							addTdToTable += "</tbody>";
+							//alert(addTdToTable);
+							$("#example").append(addTdToTable);
 						}
 					});
 					
@@ -462,7 +535,11 @@
 			});
 		}
 		
+		
+		
 		$(document).ready(function() {
+			
+			//$('#example').DataTable();
 		
 			$("#btnAdd").click( () => {
 				createRow();
