@@ -1,8 +1,22 @@
 <?php
 	require_once("./connectDB.php");
+	require_once './htmlpurifier-4.12.0/htmlpurifier-4.12.0/library/HTMLPurifier.auto.php';
+	$config = HTMLPurifier_Config::createDefault();
+	$purifier = new HTMLPurifier($config);
+	$patterm = '/select|from|where|join|SELECT|FROM|WHERE|JOIN|=|\'/';
+	$replacement = "";
 	$con = Connect();
 	$tableName = $_POST['table_name'];
 	$data = $_POST['row'];
+	
+	
+	
+	for ($i = 0 ; $i < count($data) ; $i++)
+	{
+		$data[$i] = preg_replace($patterm, $replacement, $data[$i]);
+		$data[$i] = $purifier->purify($data[$i]);
+	}
+	
 	
 	$column = [];
 	$sql = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" . $tableName . "' AND TABLE_SCHEMA = 'duy' order by ORDINAL_POSITION";
@@ -37,26 +51,4 @@
 		
 	}
 	
-	
-	/*
-	$sql = "UPDATE " . $tableName . " SET";
-	
-	for ($i = 0 ; $i < count($data) ; $i++)
-	{
-		$sql.= "'" . $data[$i] . "', ";
-	}
-	$sql = rtrim($sql, ", ");
-	$sql.= ")";
-	
-	
-	try
-	{
-		$query = mysqli_query($con, $sql);
-		//echo json_encode("success");
-	}
-	catch(Exception $e)
-	{
-		echo json_encode($e->getMessage());
-	}
-	*/
 ?>   

@@ -1,26 +1,26 @@
 <?php
 	require_once("./connectDB.php");
 	$con = Connect();
+	$tableName = $_POST["table_name"];
 	$data_title = $_POST["title"];
 	$data = $_POST["data"];
 	
-	$table_name = "test1";
 	
-	//$path = "D:\check.txt";
-	//$fp = @fopen($path, "a");
+	
+	
 	$notification = "";
 	
 	/*-------------kiểm tra table đã tồn tại vs tạo table ------------------*/
 	
 	$checkTable = " SELECT * FROM INFORMATION_SCHEMA.TABLES 
-	WHERE TABLE_SCHEMA = 'duy' AND TABLE_NAME = 'test1' ";
+	WHERE TABLE_SCHEMA = 'duy' AND TABLE_NAME = '" . $tableName . "'";
 	$query = mysqli_query($con, $checkTable);
 	$number = mysqli_num_rows($query);
 	
 	if ($number <= 0)
 	{
 		//NVARCHAR(500)
-		$sql = " CREATE TABLE " . $table_name . "(";
+		$sql = " CREATE TABLE " . $tableName . "(";
 		for ($i = 0 ; $i < count($data_title) ; $i++)
 		{
 			$sql .= $data_title[$i] . " TEXT, ";
@@ -29,12 +29,11 @@
 		$sql.= ") ENGINE = InnoDB DEFAULT CHARACTER SET = utf8 COLLATE = utf8_unicode_ci;";
 		if (mysqli_query($con, $sql))
 		{
-			//echo " tao database thanh cong  <br>";
 			$notification = "tạo bảng thành công";
 		}
 		else
 		{
-			//echo " tao database that bai ";
+			
 			$notification = "tạo bảng thất bại";
 		}
 	}
@@ -42,7 +41,8 @@
 	/*--------------------------------------------*/
 	
 	/*----------- thêm các dòng vào bảng ------------*/
-	$sql_insert = "INSERT INTO " . $table_name . "(";
+	
+	$sql_insert = "INSERT INTO " . $tableName . "(";
 	for ($i = 0 ; $i < count($data_title) ; $i++)
 	{
 		$sql_insert .= $data_title[$i]. ", ";
@@ -66,10 +66,7 @@
 	}
 	
 	/*-----------------------------------------------*/
-	//$success = "\n" . $data[0] . " :success";
-	//fwrite($fp,$success);
-	//echo json_encode($countRow);
-	//echo json_encode($sql_insert);
+	
 	
 	
 	

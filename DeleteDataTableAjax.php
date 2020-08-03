@@ -8,7 +8,6 @@
 	try
 	{
 		$query = mysqli_query($con, $sql);
-		//echo json_encode("success");
 	}
 	catch(Exception $e)
 	{

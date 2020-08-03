@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-	<script src="FileSaver.js/dist/FileSaver.js"></script>
+	<!--<script src="FileSaver.js/dist/FileSaver.js"></script>-->
 	<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js" ></script>
 	<script lang="javascript" src="./sheetjs/dist/xlsx.full.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
@@ -16,15 +16,16 @@
 	<div class="container">
 		<div class="row">
 			<div id="navbar"><span>Chuyển dữ liệu từ excel sang mysql</span></div>
-			<form class="form-inline">
+			<!--<form class="form-inline">-->
 				<div class="form-group mx-sm-3 mb-2">
+					<input type ="text" id ="txtTableName" placeholder ="nhập tên bảng" />
+					<button class ="btn btn-primary" id="btnAdd">Chuyển</button>
+					<div id="notification" style ="color:red;"></div>
 					<div id="wrapper">
-						<button class ="btn btn-primary" id="btnAdd">Chuyển</button>
 						<input type="file" id="input-excel" />
 					</div>
-					
 				</div>
-			</form>
+			<!--</form>-->
 		<div>
 	</div>
 
@@ -42,7 +43,12 @@
 			}
 		}
 
+		
+
+		
+
 		$(document).ready(function() {
+			
 			
 			
 			var title = []; // lưu thông tin tiêu đề các cột
@@ -90,46 +96,89 @@
 				
 			});
 			
+			function checkRegexp( element, regexp, errorMessage) {
+				if ( !( regexp.test(element.val()))) {
+					$("#notification").text(errorMessage);
+					return false;
+				} else {
+					return true;
+				}
+				//^[a-z]([0-9a-z_\s])+$/i
+			}
+			
+			/*
+			function checkRegexp( element, regexp, errorMessage) {
+				if (regexp != "duy") {
+					$("#notification").text(errorMessage);
+					return false;
+				} else {
+					return true;
+				}
+			}
+			
+			function checkLength(element, column, min, max) {
+				if ( element.val().length > max || element.val().length < min ) {
+					$("#notification").text("độ dài  " + column + " phải nằm trong khoảng " +
+					min + " đến " + max + ".");
+					return false;
+				} else {
+					return true;
+				}
+			}
+			*/
+			
+			function checkLength(element) {
+				alert(element.val("ruy"));
+			}
 			$('#btnAdd').click(() => {
-				var msg = "";
-				var rows = "";
-				
-				$("#wrapper table input:checked:not(#chkAll)").each(function(index, item) {
-						
-						var R = $(item).attr("id"); // lấy dòng tương ứng với ID của checkbox
-						
-						var value_temp = [];
-						try {
-							for(var C = range.s.c; C <= range.e.c; ++C) {
-								var cell_address = {c:C, r:parseInt(R)};
-								var cell_ref = XLSX.utils.encode_cell(cell_address);
-								
-								var desired_cell = sheetName[cell_ref];
-								if (desired_cell === undefined)
-									desired_cell = "";
-								
-								value_temp.push(addslashes(desired_cell.v));
+				//checkLength($("#txtTablename"));
+				alert($("#txtTablename").val());
+				/*
+				var valid = true;
+				//valid = valid && checkLength($("#txtTablename"), "Tên bảng", 2, 5);
+				//valid = valid && checkRegexp($("#txtTablename"), /^[a-z]([0-9a-z_\s])+$/i, 
+				//		"tên bảng có thể bao gồm chữ, số, dấu _, và phải bắt đầu là kí tự");
+				if (valid)
+				{
+					$("#wrapper table input:checked:not(#chkAll)").each(function(index, item) {
+							
+							var R = $(item).attr("id"); // lấy dòng tương ứng với ID của checkbox
+							
+							var value_temp = [];
+							try {
+								for(var C = range.s.c; C <= range.e.c; ++C) {
+									var cell_address = {c:C, r:parseInt(R)};
+									var cell_ref = XLSX.utils.encode_cell(cell_address);
+									
+									var desired_cell = sheetName[cell_ref];
+									if (desired_cell === undefined)
+										desired_cell = "";
+									//alert(desired_cell.v);
+									value_temp.push(addslashes(desired_cell.v));
+								}
 							}
-						}
-						catch(e) {
-							console.log(e.message);
+							catch(e) {
+								console.log(e.message);
+								
+							}
 							
-						}
-						
-						
-						$.post({
-							url:"./CreateTableAjax.php",
-							data: {
-								"title": title,
-								"data": value_temp
-							},
-							dataType: "json"
-						}).done((result) => {
 							
-						});
-						
-				});
-				
+							$.post({
+								url:"./CreateTableAjax.php",
+								data: {
+									"table_name": $("#txtTableName").val(),
+									"title": title,
+									"data": value_temp
+								},
+								dataType: "json"
+							}).done((result) => {
+								//alert(result);
+							});
+							
+					});
+					
+				}
+				*/
 			});
 			
 			

@@ -1,5 +1,7 @@
 <?php
 	require_once ("./Config.php");
+	
+	
 	function Connect()
 	{
 		//$con = mysqli_connect($conf['server'], $conf['user'], $conf['password'], $conf["TABLE_SCHEMA"]);
@@ -18,4 +20,5 @@
 			mysqli_close(Connect());
 		}
 	}
+	
 ?>
