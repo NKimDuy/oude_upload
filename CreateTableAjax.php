@@ -1,7 +1,13 @@
 <?php
 	require_once("./connectDB.php");
+	require_once './htmlpurifier-4.12.0/htmlpurifier-4.12.0/library/HTMLPurifier.auto.php';
 	$con = Connect();
+	$config = HTMLPurifier_Config::createDefault();
+	$purifier = new HTMLPurifier($config);
+	$patterm = '/select|from|where|join|SELECT|FROM|WHERE|JOIN|=|\'/';
+	$replacement = "";
 	$tableName = $_POST["table_name"];
+	$tableName = preg_replace($patterm, $replacement, $tableName);
 	$data_title = $_POST["title"];
 	$data = $_POST["data"];
 	

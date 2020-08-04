@@ -2,21 +2,21 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-	
 		<!-- javascript/jquery -->
 		<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 		<!--------------------------------------------------------------------------------->
 		
+		<!-- datatable -->
+		<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+		<link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" >
+		<!---->
+		
 		<!-- bootstrap 4 -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 		<!---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
 		
-		<!-- datatable 
-		<script type="text/javascript" src="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css"></script>
-		<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js">
-		-->
 		
 		<style>
 			.error {
@@ -35,7 +35,7 @@
 		<div class="container">
 			
 			<div class="row">
-				<div class ="col">
+				<div class="col">
 					<form class="form-inline">
 						<div class="form-group mx-sm-3 mb-2">
 							<label for="tableName" class="sr-only">Các bảng hiện có trong cơ sở dữ liệu</label>
@@ -43,13 +43,13 @@
 								<option value="test1">test1</option>
 							</select>
 						</div>
-						<button id="btnAdd" class ="btn btn-primary">Thêm dòng mới</button>
+						<button id="btnAdd" class="btn btn-primary">Thêm dòng mới</button>
 					</form>
 				</div>
 				
 			</div>
 			<div class="row">
-				<table id="example" class="display" style="width:100%"></table>
+				<table id="example"></table>
 			</div>
 			
 			
@@ -463,7 +463,8 @@
 			$("#example tr").remove(); // xóa các dòng của bảng trước khi thêm hoặc sửa
 			
 			// tạo các cột
-			var addThToTable = "<tr>";
+			var	addThToTable = "",
+				addTdToTable = "";
 			$.get({
 				url:"./GetTitleTableAjax.php",
 				data: {
@@ -478,13 +479,11 @@
 						
 					});
 					addThToTable += "</tr></thead>";
-						$("#example").append(addThToTable);
-					
-					
+					//$("#example").append(addThToTable);
 				},
 				// tạo các dòng
 				complete: function() {
-					var addTdToTable = "<tbody>"; // "";
+					addTdToTable = "<tbody>"; // "";
 					$.get({
 						url:"./GetDataTableAjax.php",
 						data: {
@@ -533,7 +532,8 @@
 							});
 							addTdToTable += "</tbody>";
 							//alert(addTdToTable);
-							$("#example").append(addTdToTable);
+							$("#example").append(addThToTable+addTdToTable);
+							$('#example').DataTable();
 						}
 					});
 					
@@ -553,7 +553,7 @@
 			
 			loadTable();
 			
-			
+			//$('#example').DataTable();
 		});
 	</script>
 </html>

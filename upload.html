@@ -3,186 +3,190 @@
 <head>
 	<meta charset="utf-8">
 	<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-	<!--<script src="FileSaver.js/dist/FileSaver.js"></script>-->
-	<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js" ></script>
 	<script lang="javascript" src="./sheetjs/dist/xlsx.full.min.js"></script>
-	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
-	
 	<!-- boostrap 4 -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 	<!---->
+	
+	<!-- dataTable -->
+		
+	<!---->
 </head>
 	<body>
-	<div class="container">
-		<div class="row">
-			<div id="navbar"><span>Chuyển dữ liệu từ excel sang mysql</span></div>
-			<!--<form class="form-inline">-->
-				<div class="form-group mx-sm-3 mb-2">
-					<input type ="text" id ="txtTableName" placeholder ="nhập tên bảng" />
-					<button class ="btn btn-primary" id="btnAdd">Chuyển</button>
-					<div id="notification" style ="color:red;"></div>
-					<div id="wrapper">
-						<input type="file" id="input-excel" />
+		<button id ="t">test</button>
+		<div class="container">
+			<div class="row">
+				<div id="navbar"><span>Chuyển dữ liệu từ excel sang mysql</span></div>
+				<!--<form class="form-inline">-->
+					<div class="form-group mx-sm-3 mb-2">
+						<input type ="text" id ="txtTabName" placeholder ="nhập tên bảng" />
+						<button class ="btn btn-primary" id="btnAdd">Chuyển</button>
+						<div id="notification" style ="color:red;"></div>
+						<div id="wrapper">
+							<input type="file" id="input-excel" />
+						</div>
 					</div>
-				</div>
-			<!--</form>-->
-		<div>
-	</div>
+				<!--</form>-->
+			<div>
+		</div>
 
-	<script>
-		function addslashes(str) { // có nhiệm vụ hiểu dấu nháy đơn trong chuỗi
-			return (str + '').replace(/[\\"']/g, '\\$&').replace(/\u0000/g, '\\0');
-		}
 
-		function checkAll() { // chọn hoặc bỏ chọn tất cả các checkbox
-			if($("#chkAll").is(':checked')) {
-				$("#wrapper table input:checkbox:not(#chkAll)").prop("checked","checked");
+		<script>
+			
+			function addslashes(str) { // có nhiệm vụ hiểu dấu nháy đơn trong chuỗi
+				return (str + '').replace(/[\\"']/g, '\\$&').replace(/\u0000/g, '\\0');
 			}
-			else {
-				$("#wrapper table input:checkbox:not(#chkAll)").prop("checked",false);
+
+			function checkAll() { // chọn hoặc bỏ chọn tất cả các checkbox
+				if($("#chkAll").is(':checked')) {
+					$("#wrapper table input:checkbox:not(#chkAll)").prop("checked","checked");
+				}
+				else {
+					$("#wrapper table input:checkbox:not(#chkAll)").prop("checked",false);
+				}
 			}
-		}
-
-		
-
-		
-
-		$(document).ready(function() {
 			
-			
-			
-			var title = []; // lưu thông tin tiêu đề các cột
-			var record = ""; // lưu thông tin các record
-			var wb = null; // lưu giữ thông tin workbook nào đang được tương tác
-			var sheetName = null; // lấy worksheet tương ứng với workbook
-			var range = null; // lấy tất cả các ô có giá trị trong sheet
-			$('#input-excel').change(function(e){
-				var reader = new FileReader();
-				reader.readAsArrayBuffer(e.target.files[0]);
-				reader.onload = function(e) {
-					var data = new Uint8Array(reader.result);
-					wb = XLSX.read(data,{type:'array'}); // tạo ra workbook từ dataReader vừa load file lên
-					
-					var htmlstr = XLSX.write(wb,{sheet:"Sheet1", type:'string', bookType:'html'});
-					
-					$('#wrapper')[0].innerHTML += htmlstr;
-					$("#wrapper > table").addClass("table table-hover");
-					$("#wrapper table tr:first-child").prepend("<td><input id='chkAll' type='checkbox'  onclick='checkAll()' /></td>");
-					$("#wrapper table tr").not("tr:first-child").prepend("<td><input type='checkbox' /></td>");
-					//$("#wrapper table tr").prepend("<td><input type='checkbox' /></td>");
-					// lấy giá trị các ô trong excel
-					sheetName = wb.Sheets["Sheet1"]; // lấy sheet có tên là Sheet1
+			$(document).ready(() =>{
 				
-					range = XLSX.utils.decode_range(sheetName['!ref']); // !ref có ý nghĩa là chỉ chọn vùng nào có tồn tại dữ liệu
+				$("#t").click(() => {
+					checkExitTable($("#txtTabName").val());
+				});
+				
+				
+				var title = []; // lưu thông tin tiêu đề các cột
+				var record = ""; // lưu thông tin các record
+				var wb = null; // lưu giữ thông tin workbook nào đang được tương tác
+				var sheetName = null; // lấy worksheet tương ứng với workbook
+				var range = null; // lấy tất cả các ô có giá trị trong sheet
+				$('#input-excel').change(function(e){
+					var reader = new FileReader();
+					reader.readAsArrayBuffer(e.target.files[0]);
+					reader.onload = function(e) {
+						var data = new Uint8Array(reader.result);
+						wb = XLSX.read(data,{type:'array'}); // tạo ra workbook từ dataReader vừa load file lên
+						
+						var htmlstr = XLSX.write(wb,{sheet:"Sheet1", type:'string', bookType:'html'});
+						
+						$('#wrapper')[0].innerHTML += htmlstr;
+						$("#wrapper > table").addClass("table table-hover");
+						$("#wrapper table tr:first-child").prepend("<td><input id='chkAll' type='checkbox'  onclick='checkAll()' /></td>");
+						$("#wrapper table tr").not("tr:first-child").prepend("<td><input type='checkbox' /></td>");
+						//$("#wrapper table tr").prepend("<td><input type='checkbox' /></td>");
+						// lấy giá trị các ô trong excel
+						sheetName = wb.Sheets["Sheet1"]; // lấy sheet có tên là Sheet1
 					
-					var R = 0; // // chỉ mục của dòng đầu tiên để lấy các tiêu đề cột
-					for(var C = range.s.c; C <= range.e.c; ++C) {
-						var cell_address = {c:C, r:R};
-						var cell_ref = XLSX.utils.encode_cell(cell_address);
-						var desired_cell = sheetName[cell_ref];
-						title.push(desired_cell.v);
-					}
-					
-					
-					// gán ID đến các checkbox tương ứng, bắt đầu là 1
-					var input_index = range.s.r + 1;
-					$("#wrapper table input:checkbox").each(function(index, item) {
-						if (index != 0) {
-							$(item).attr("id",input_index++);
+						range = XLSX.utils.decode_range(sheetName['!ref']); // !ref có ý nghĩa là chỉ chọn vùng nào có tồn tại dữ liệu
+						
+						var R = 0; // // chỉ mục của dòng đầu tiên để lấy các tiêu đề cột
+						for(var C = range.s.c; C <= range.e.c; ++C) {
+							var cell_address = {c:C, r:R};
+							var cell_ref = XLSX.utils.encode_cell(cell_address);
+							var desired_cell = sheetName[cell_ref];
+							title.push(desired_cell.v);
 						}
 						
-					});				
+						
+						// gán ID đến các checkbox tương ứng, bắt đầu là 1
+						var input_index = range.s.r + 1;
+						$("#wrapper table input:checkbox").each(function(index, item) {
+							if (index != 0) {
+								$(item).attr("id",input_index++);
+							}
+							
+						});				
+					}
+					
+				});
+				
+				function checkRegexp( element, regexp, errorMessage) {
+					if ( !( regexp.test(element.val()))) {
+						$("#notification").text(errorMessage);
+						return false;
+					} else {
+						return true;
+					}
 				}
 				
-			});
-			
-			function checkRegexp( element, regexp, errorMessage) {
-				if ( !( regexp.test(element.val()))) {
-					$("#notification").text(errorMessage);
-					return false;
-				} else {
-					return true;
+				function checkLength(element, column, min, max) {
+					if ( element.val().length > max || element.val().length < min ) {
+						$("#notification").text("độ dài  " + column + " phải nằm trong khoảng " +
+						min + " đến " + max + ".");
+						return false;
+					} else {
+						return true;
+					}
 				}
-				//^[a-z]([0-9a-z_\s])+$/i
-			}
-			
-			/*
-			function checkRegexp( element, regexp, errorMessage) {
-				if (regexp != "duy") {
-					$("#notification").text(errorMessage);
-					return false;
-				} else {
-					return true;
-				}
-			}
-			
-			function checkLength(element, column, min, max) {
-				if ( element.val().length > max || element.val().length < min ) {
-					$("#notification").text("độ dài  " + column + " phải nằm trong khoảng " +
-					min + " đến " + max + ".");
-					return false;
-				} else {
-					return true;
-				}
-			}
-			*/
-			
-			function checkLength(element) {
-				alert(element.val("ruy"));
-			}
-			$('#btnAdd').click(() => {
-				//checkLength($("#txtTablename"));
-				alert($("#txtTablename").val());
-				/*
-				var valid = true;
-				//valid = valid && checkLength($("#txtTablename"), "Tên bảng", 2, 5);
-				//valid = valid && checkRegexp($("#txtTablename"), /^[a-z]([0-9a-z_\s])+$/i, 
-				//		"tên bảng có thể bao gồm chữ, số, dấu _, và phải bắt đầu là kí tự");
-				if (valid)
-				{
-					$("#wrapper table input:checked:not(#chkAll)").each(function(index, item) {
-							
-							var R = $(item).attr("id"); // lấy dòng tương ứng với ID của checkbox
-							
-							var value_temp = [];
-							try {
-								for(var C = range.s.c; C <= range.e.c; ++C) {
-									var cell_address = {c:C, r:parseInt(R)};
-									var cell_ref = XLSX.utils.encode_cell(cell_address);
-									
-									var desired_cell = sheetName[cell_ref];
-									if (desired_cell === undefined)
-										desired_cell = "";
-									//alert(desired_cell.v);
-									value_temp.push(addslashes(desired_cell.v));
-								}
+				
+				function checkExitTable(table) {
+					let valid = true;
+					$.post({
+						url: "./CheckExistTableAjax.php",
+						data: {
+							"table_name": table
+						},
+						dataType: "text",
+						success: function(result) {
+							if (result != 0) {
+								$("#notification").text("Tên bảng đã tồn tại");
+								valid = false;
 							}
-							catch(e) {
-								console.log(e.message);
-								
-							}
-							
-							
-							$.post({
-								url:"./CreateTableAjax.php",
-								data: {
-									"table_name": $("#txtTableName").val(),
-									"title": title,
-									"data": value_temp
-								},
-								dataType: "json"
-							}).done((result) => {
-								//alert(result);
-							});
-							
+						}
 					});
-					
+					return valid;
 				}
-				*/
+				
+				$("#btnAdd").click(() => {
+					var valid = true;
+					valid = valid && checkExitTable($("#txtTabName").val());
+					valid = valid && checkLength($("#txtTabName"), "Tên bảng", 0, 5);
+					valid = valid && checkRegexp($("#txtTabName"), /^[a-z]([0-9a-z_\s])+$/i, 
+							"tên bảng có thể bao gồm chữ, số, dấu _, và phải bắt đầu là kí tự");
+					if (valid)
+					{
+						$("#wrapper table input:checked:not(#chkAll)").each(function(index, item) {
+								
+								var R = $(item).attr("id"); // lấy dòng tương ứng với ID của checkbox
+								
+								var value_temp = [];
+								try {
+									for(var C = range.s.c; C <= range.e.c; ++C) {
+										var cell_address = {c:C, r:parseInt(R)};
+										var cell_ref = XLSX.utils.encode_cell(cell_address);
+										
+										var desired_cell = sheetName[cell_ref];
+										if (desired_cell === undefined)
+											desired_cell = "";
+										value_temp.push(addslashes(desired_cell.v));
+									}
+								}
+								catch(e) {
+									console.log(e.message);
+									
+								}
+								
+								
+								$.post({
+									url:"./CreateTableAjax.php",
+									data: {
+										"table_name": $("#txtTabName").val(),
+										"title": title,
+										"data": value_temp
+									},
+									dataType: "json"
+								}).done((result) => {
+									//alert(result);
+								});
+								
+						});
+						
+					}
+					
+				});
+				
+				
 			});
-			
-			
-		});
-	</script>
+		</script>
+
+		
 	</body>
 </html>
