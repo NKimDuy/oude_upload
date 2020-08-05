@@ -40,7 +40,7 @@
 						<div class="form-group mx-sm-3 mb-2">
 							<label for="tableName" class="sr-only">Các bảng hiện có trong cơ sở dữ liệu</label>
 							<select class="custom-select form-control" id="tableName">
-								<option value="test1">test1</option>
+								<!--<option value="test1">test1</option>-->
 							</select>
 						</div>
 						<button id="btnAdd" class="btn btn-primary">Thêm dòng mới</button>
@@ -168,8 +168,8 @@
 	</body>
 	<script>
 		
-		function updateTips(text) {
-			$(".error")
+		function updateTips(text) { // cập nhập trạng thái khi có lỗi xảy ra
+			$(".error") // chọn seletor có lớp là error
 			.text(text)
 			.addClass("ui-state-highlight");
 			setTimeout(function() {
@@ -177,7 +177,7 @@
 			}, 500 );
 		}
 		
-		function checkLength(element, column, min, max) {
+		function checkLength(element, column, min, max) { // kiểm tra độ dài của trường dữ liệu nhập vào
 			if ( element.val().length > max || element.val().length < min ) {
 				element.addClass("ui-state-error");
 				updateTips("độ dài  " + column + " phải nằm trong khoảng " +
@@ -188,8 +188,8 @@
 			}
 		}
 		
-		function checkRegexp( element, regexp, errorMessage ) {
-			if ( !( regexp.test(element.val()))) {
+		function checkRegexp( element, regexp, errorMessage ) { // kiểm tra định dạng của trường nhập vào có hợp lệ không
+			if ( !( regexp.test(element.val()))) { // text trả về true nếu chuỗi hợp lệ
 				element.addClass("ui-state-error");
 				updateTips(errorMessage);
 				return false;
@@ -199,7 +199,7 @@
 			}
 		}
 	
-		function regexpForCreateUpdate(strUrl, dialogId) {
+		function regexpForCreateUpdate(strUrl, dialogId) { // hàm dùng chung cho cập nhập và tạo mới dòng, sẽ kiểm tra và gửi dữ liệu sang file php
 			var data = [];
 			var valid = true;
 			valid = valid && checkLength($("#txtMadvlk"),"Mã đơn vị liên kết", 0, 15);
@@ -244,7 +244,7 @@
 			//valid = valid && checkRegexp($("#txtCthk"), /^[a-z]([0-9a-z-\s])+$/i, "Chi tiết học kì gồm các kí tự số, chữ, dấu -, và phải bắt đầu là kí tự");
 			
 			
-			if (valid) {
+			if (valid) { // nếu hợp lệ sẽ chuyển dữ liệu của các thẻ input sang file php
 				data.push($("#txtStt").val(),
 						$("#txtMadvlk").val(),
 						$("#txtTendvlk").val(),
@@ -463,8 +463,8 @@
 			$("#example tr").remove(); // xóa các dòng của bảng trước khi thêm hoặc sửa
 			
 			// tạo các cột
-			var	addThToTable = "",
-				addTdToTable = "";
+			var	addThToTable = "", // thêm các cột vào bảng
+				addTdToTable = ""; // thêm các dòng vào bảng
 			$.get({
 				url:"./GetTitleTableAjax.php",
 				data: {
@@ -533,7 +533,8 @@
 							addTdToTable += "</tbody>";
 							//alert(addTdToTable);
 							$("#example").append(addThToTable+addTdToTable);
-							$('#example').DataTable();
+							$("#example td").css("text-align","center");
+							$('#example').DataTable(); // áp dụng datatable cho bảng.
 						}
 					});
 					
@@ -544,16 +545,31 @@
 		
 		
 		$(document).ready(function() {
-			
-			//$('#example').DataTable();
-		
+			$.get({
+				url: "./GetAllTableAjax.php",
+				dataType: "json",
+				success: function(result) {
+					
+					var option = "";
+					result.forEach(item => {
+						option += "<option>"+ item.TABLE_NAME +"</option>";
+						
+					});
+					
+					$("#tableName").append(option);
+					loadTable();
+					
+				}
+			});
 			$("#btnAdd").click( () => {
 				createRow();
 			});
 			
-			loadTable();
+			$("#tableName").change(() => {
+				loadTable();
+			});
 			
-			//$('#example').DataTable();
+			
 		});
 	</script>
 </html>

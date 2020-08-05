@@ -1,5 +1,6 @@
 <?php
 	require_once("./connectDB.php");
+	require_once ("./Config.php");
 	require_once './htmlpurifier-4.12.0/htmlpurifier-4.12.0/library/HTMLPurifier.auto.php';
 	$config = HTMLPurifier_Config::createDefault();
 	$purifier = new HTMLPurifier($config);
@@ -19,7 +20,7 @@
 	
 	
 	$column = [];
-	$sql = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" . $tableName . "' AND TABLE_SCHEMA = 'duy' order by ORDINAL_POSITION";
+	$sql = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" . $tableName . "' AND TABLE_SCHEMA = '" . $conf["TABLE_SCHEMA"] . "' order by ORDINAL_POSITION";
 	$query = mysqli_query($con, $sql);
 	$number = mysqli_num_rows($query);
 	if ($number > 0)

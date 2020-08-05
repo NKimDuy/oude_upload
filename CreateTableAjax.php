@@ -1,5 +1,6 @@
 <?php
 	require_once("./connectDB.php");
+	require_once ("./Config.php");
 	require_once './htmlpurifier-4.12.0/htmlpurifier-4.12.0/library/HTMLPurifier.auto.php';
 	$con = Connect();
 	$config = HTMLPurifier_Config::createDefault();
@@ -19,7 +20,7 @@
 	/*-------------kiểm tra table đã tồn tại vs tạo table ------------------*/
 	
 	$checkTable = " SELECT * FROM INFORMATION_SCHEMA.TABLES 
-	WHERE TABLE_SCHEMA = 'duy' AND TABLE_NAME = '" . $tableName . "'";
+	WHERE TABLE_SCHEMA = '" . $conf["TABLE_SCHEMA"] . "' AND TABLE_NAME = '" . $tableName . "'";
 	$query = mysqli_query($con, $checkTable);
 	$number = mysqli_num_rows($query);
 	
@@ -65,10 +66,12 @@
 	try
 	{
 		$query = mysqli_query($con, $sql_insert);
+		echo json_encode("success");
 	}
 	catch(Exception $e)
 	{
-		echo json_encode($e->getMessage());
+		//echo json_encode($e->getMessage());
+		echo json_encode("fail to add " . $data[3]);
 	}
 	
 	/*-----------------------------------------------*/
