@@ -222,22 +222,28 @@
 												addRowSuccessfully = false;
 											},
 											success: function() {
-												addRowSuccessfully = true;
-												rowsAddToSql++;
+											
+												//addRowSuccessfully = true;
+												rowsAddToSql += 1;
+												//alert(rowsAddToSql);
+												if(rowsAddToSql == rowsGetByExcel - 1)
+													alert("Đã thêm các dòng được đánh dấu vào cơ sở dữ liệu");
 											}
 										});
-										if(!addRowSuccessfully)
-											return false;
+										//if(!addRowSuccessfully)
+										//	return false;
+										//if(rowsAddToSql == rowsGetByExcel)
+										//	alert("Đã thêm các dòng được đánh dấu vào cơ sở dữ liệu");
+										
 									});
 									
 								}
 							}
-							//if(addRowSuccessfully && rowsAddToSql == rowsGetByExcel)
-								//alert("Đã thêm các dòng được đánh dấu vào cơ sở dữ liệu");
+							
 								
 						},
 						complete: function(result) {
-							alert(rowsAddToSql);
+							//alert(rowsAddToSql);
 						}
 					});
 				});
