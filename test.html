@@ -15,7 +15,8 @@
 			$("#btnCheck").click(() =>{
 				var txt = $("#txt").val();
 				//var regexp = /^([0-9]{2})\/([0-9]{2})\/([0-9]{4})$/.test(txt);
-				var regexp = /^[a-z]([a-z_\d])/i.test(txt);
+				//var regexp = /^[a-z]([a-z_\d])/i.test(txt);
+				var regexp = /tn_[\d]+/i.test(txt);
 				$("#result").text(regexp).css("font-size","31px");
 			});
 		});

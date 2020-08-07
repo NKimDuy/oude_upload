@@ -17,6 +17,11 @@
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 		<!---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
 		
+		<!-- tooltipter -->
+			<link rel="stylesheet" href="css/tooltipster/tooltipster.bundle.min.css">
+			<link rel="stylesheet" href="css/tooltipster/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-light.min.css">
+			<script src="js/tooltipster/tooltipster.bundle.min.js" ></script>
+		<!---->
 		
 		<style>
 			.error {
@@ -36,15 +41,13 @@
 			
 			<div class="row">
 				<div class="col">
-					<form class="form-inline">
-						<div class="form-group mx-sm-3 mb-2">
-							<label for="tableName" class="sr-only">Các bảng hiện có trong cơ sở dữ liệu</label>
-							<select class="custom-select form-control" id="tableName">
-								<!--<option value="test1">test1</option>-->
-							</select>
-						</div>
+				
+					
+						<label for="tableName">Các bảng hiện có trong cơ sở dữ liệu</label>
+						<select class="custom-select form-control" id="tableName"></select>
 						<button id="btnAdd" class="btn btn-primary">Thêm dòng mới</button>
-					</form>
+					
+					
 				</div>
 				
 			</div>
@@ -112,7 +115,7 @@
 							<label for="txtHinh">Hình</label>
 							<select class="custom-select" id="txtHinh">
 								<option value="HỢP LỆ" selected>HỢP LỆ</option>
-								<option value="BỔ SUNG">BỔ SUNG</option>
+								<option value="BỔ SUNG" >BỔ SUNG</option>
 							</select>
 							
 							<label for="txtPdkxcb">Phiếu đăng kí xét cấp bằng</label>
@@ -300,7 +303,7 @@
 			$("#dialog").attr("title", "Create Row"); //thay đổi title của dialog
 			$("#txtStt").attr("disabled",true); // vô hiệu hóa cột STT
 			$.post({
-				url: "./GetSttDataAjax.php",
+				url: "./lib/ajax/GetSttDataAjax.php",
 				data: {
 					"table_name": $("#tableName").val()
 				},
@@ -319,18 +322,22 @@
 					
 					$("#txtGiayKhaiSinh").val(""), $("#txtBangCap").val(""),
 					
-					$("#txtHinh").val(""), $("#txtPdkxcb").val(""),
+					/*$("#txtHinh").val(""), $("#txtPdkxcb").val(""),
 					
-					$("#txtCtdt").val(""), $("#txtHtdt").val(""),
+					$("#txtCtdt").val(""),*/ $("#txtHtdt").val(""),
 					
 					$("#txtDiem").val(""), $("#txtXepLoai").val(""),
 					
-					$("#txtDktn").val(""), $("#txtHoKd").val(""),
+					/*$("#txtDktn").val(""),*/ $("#txtHoKd").val(""),
 					
 					$("#txtTenKd").val(""), $("#txtHoTenKd").val(""),
 					
 					$("#txtHocKi").val(""), $("#txtCthk").val("");
 					
+					
+					
+				},
+				complete: function(result) {
 					$("#dialog").dialog({
 						height: 'auto',
 						width: 1000,
@@ -340,7 +347,7 @@
 						at: "center",
 						buttons: {
 							"Add": function() {
-								regexpForCreateUpdate("./AddDataTableAjax.php", "#dialog");
+								regexpForCreateUpdate("./lib/ajax/AddDataTableAjax.php", "#dialog");
 								
 							},
 							"Cancel": function() {
@@ -351,9 +358,7 @@
 							$( this ).dialog( "destroy" );
 						}
 					});
-					
 				}
-				
 			});
 		}
 	
@@ -361,7 +366,7 @@
 			$("#dialog").attr("title", "Update Row");
 			$("#txtStt").attr("disabled",true);
 			$.post({
-				url: "./GetOneDataAjax.php",
+				url: "./lib/ajax/GetOneDataAjax.php",
 				data: {
 					'mssv':mssv,
 					"table_name": $("#tableName").val(),
@@ -404,7 +409,7 @@
 						at: "center",
 						buttons: {
 							"Update": function(){
-								regexpForCreateUpdate("./UpdateTableAjax.php", "#dialog");
+								regexpForCreateUpdate("./lib/ajax/UpdateTableAjax.php", "#dialog");
 							},
 							"Cancel": function() {
 								$( this ).dialog( "close" );
@@ -435,7 +440,7 @@
 					"Do you wanna delete ?": function() {
 						
 						$.post({
-							url: "./DeleteDataTableAjax.php",
+							url: "./lib/ajax/DeleteDataTableAjax.php",
 							data: {
 								"table_name": $("#tableName").val(),
 								"mssv": mssv
@@ -445,8 +450,8 @@
 								
 							}
 						});
-						$( this ).dialog( "close" );
-						location.reload();
+						$("#dialogDelete").dialog( "close" );
+						loadTable(); // khi hoàn thành thêm hoặc xóa thì sẽ load lại bảng để lấy dữ liệu mới
 					},
 					"Cancel": function() {
 						$( this ).dialog( "close" );
@@ -466,7 +471,7 @@
 			var	addThToTable = "", // thêm các cột vào bảng
 				addTdToTable = ""; // thêm các dòng vào bảng
 			$.get({
-				url:"./GetTitleTableAjax.php",
+				url:"./lib/ajax/GetTitleTableAjax.php",
 				data: {
 					"table_name": $("#tableName").val()
 				},
@@ -485,7 +490,7 @@
 				complete: function() {
 					addTdToTable = "<tbody>"; // "";
 					$.get({
-						url:"./GetDataTableAjax.php",
+						url:"./lib/ajax/GetDataTableAjax.php",
 						data: {
 							"table_name": $("#tableName").val()
 						},
@@ -546,7 +551,7 @@
 		
 		$(document).ready(function() {
 			$.get({
-				url: "./GetAllTableAjax.php",
+				url: "./lib/ajax/GetAllTableAjax.php",
 				dataType: "json",
 				success: function(result) {
 					
@@ -561,7 +566,7 @@
 					
 				}
 			});
-			$("#btnAdd").click( () => {
+			$("#btnAdd").click(() => {
 				createRow();
 			});
 			
@@ -569,6 +574,105 @@
 				loadTable();
 			});
 			
+			$("#txtMssv").tooltipster({
+				content: "Mã số sinh viên gồm số và chữ, và có độ dài tối đa là 16 kí tự",
+				theme: "tooltipster-light"
+			});
+			
+			$("#txtMadvlk").tooltipster({
+				content: "Mã số sinh viên gồm số và chữ, và có độ dài tối đa là 16 kí tự",
+				theme: "tooltipster-light"
+			});
+			
+			$("#txtTendvlk").tooltipster({
+				content: "Mã số sinh viên gồm số và chữ, và có độ dài tối đa là 16 kí tự",
+				theme: "tooltipster-light"
+			});
+			
+			$("#txtHo").tooltipster({
+				content: "Mã số sinh viên gồm số và chữ, và có độ dài tối đa là 16 kí tự",
+				theme: "tooltipster-light"
+			});
+			
+			$("#txtTen").tooltipster({
+				content: "Mã số sinh viên gồm số và chữ, và có độ dài tối đa là 16 kí tự",
+				theme: "tooltipster-light"
+			});
+			
+			$("#txtNgaySinh").tooltipster({
+				content: "Mã số sinh viên gồm số và chữ, và có độ dài tối đa là 16 kí tự",
+				theme: "tooltipster-light"
+			});
+			
+			$("#txtNoiSinh").tooltipster({
+				content: "Mã số sinh viên gồm số và chữ, và có độ dài tối đa là 16 kí tự",
+				theme: "tooltipster-light"
+			});
+			
+			$("#txtDanToc").tooltipster({
+				content: "Mã số sinh viên gồm số và chữ, và có độ dài tối đa là 16 kí tự",
+				theme: "tooltipster-light"
+			});
+			
+			$("#txtQuocTich").tooltipster({
+				content: "Mã số sinh viên gồm số và chữ, và có độ dài tối đa là 16 kí tự",
+				theme: "tooltipster-light"
+			});
+			
+			$("#txtNganhDaoTao").tooltipster({
+				content: "Mã số sinh viên gồm số và chữ, và có độ dài tối đa là 16 kí tự",
+				theme: "tooltipster-light"
+			});
+			
+			$("#txtGiayKhaiSinh").tooltipster({
+				content: "Mã số sinh viên gồm số và chữ, và có độ dài tối đa là 16 kí tự",
+				theme: "tooltipster-light"
+			});
+			
+			$("#txtBangCap").tooltipster({
+				content: "Mã số sinh viên gồm số và chữ, và có độ dài tối đa là 16 kí tự",
+				theme: "tooltipster-light"
+			});
+			
+			$("#txtHtdt").tooltipster({
+				content: "Mã số sinh viên gồm số và chữ, và có độ dài tối đa là 16 kí tự",
+				theme: "tooltipster-light"
+			});
+			
+			$("#txtDiem").tooltipster({
+				content: "Mã số sinh viên gồm số và chữ, và có độ dài tối đa là 16 kí tự",
+				theme: "tooltipster-light"
+			});
+			
+			$("#txtXepLoai").tooltipster({
+				content: "Mã số sinh viên gồm số và chữ, và có độ dài tối đa là 16 kí tự",
+				theme: "tooltipster-light"
+			});
+			
+			$("#txtHoKd").tooltipster({
+				content: "Mã số sinh viên gồm số và chữ, và có độ dài tối đa là 16 kí tự",
+				theme: "tooltipster-light"
+			});
+			
+			$("#txtTenKd").tooltipster({
+				content: "Mã số sinh viên gồm số và chữ, và có độ dài tối đa là 16 kí tự",
+				theme: "tooltipster-light"
+			});
+			
+			$("#txtHoTenKd").tooltipster({
+				content: "Mã số sinh viên gồm số và chữ, và có độ dài tối đa là 16 kí tự",
+				theme: "tooltipster-light"
+			});
+			
+			$("#txtHocKi").tooltipster({
+				content: "Mã số sinh viên gồm số và chữ, và có độ dài tối đa là 16 kí tự",
+				theme: "tooltipster-light"
+			});
+			
+			$("#txtCthk").tooltipster({
+				content: "Mã số sinh viên gồm số và chữ, và có độ dài tối đa là 16 kí tự",
+				theme: "tooltipster-light"
+			});
 			
 		});
 	</script>

@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="utf-8">
 	<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-	<script lang="javascript" src="./sheetjs/dist/xlsx.full.min.js"></script>
+	<script lang="javascript" src="./lib/sheetjs/dist/xlsx.full.min.js"></script>
 	<!-- boostrap 4 -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 	<!---->
@@ -26,7 +27,6 @@
 						
 						<div id="notification" style ="color:red;"></div>
 						<div id="wrapper">
-							
 						</div>
 					</div>
 				
@@ -171,7 +171,7 @@
 					let rowsAddToSql = 0;
 					//let xlsxRows = 
 					$.post({
-						url: "./CheckExistTableAjax.php",
+						url: "./lib/ajax/CheckExistTableAjax.php",
 						data: {
 							"table_name": $("#txtTabName").val()
 						},
@@ -182,7 +182,7 @@
 							}
 							else {
 								var valid = true;
-								valid = checkLength($("#txtTabName"), "Tên bảng", 1, 5);
+								valid = checkLength($("#txtTabName"), "Tên bảng", 1, 10);
 								valid = valid && checkCheckbox();
 								valid = valid && checkRegexp($("#txtTabName"), /^[a-z]([0-9a-z_\s])+$/i, 
 								"tên bảng có thể bao gồm chữ, số, dấu _, và phải bắt đầu là kí tự");
@@ -211,7 +211,7 @@
 										
 										
 										$.post({
-											url:"./CreateTableAjax.php",
+											url:"./lib/ajax/CreateTableAjax.php",
 											data: {
 												"table_name": $("#txtTabName").val(),
 												"title": title,
