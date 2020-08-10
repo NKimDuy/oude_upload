@@ -1,4 +1,5 @@
 <?php
+	
 	require_once("../../db/connectDB.php");
 	require_once ("../../db/Config.php");
 	$con = Connect();
@@ -9,6 +10,7 @@
 	//$number = mysqli_num_rows($query);
 	echo json_encode($tableName); 
 	
+	//echo json_encode("duy"); 
 	
 	
 ?>  

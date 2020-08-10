@@ -26,10 +26,10 @@
 				},
 				dataType: "json",
 				success: function(res) {
-					
+					alert(res);
 				},
 				complete: function(result) {
-					alert(JSON.stringify(result.responseJSON));
+					alert(result);
 				}
 			});
 		}
