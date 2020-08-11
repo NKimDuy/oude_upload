@@ -1,58 +1,28 @@
 <?php
-	/*
+	
 	session_start();
-	$flag = "";
-	$flag_create_user = "";
-	$flag_delete_user = "";
-	$flag_create_table = "";
+	$flagPermission = "";
+	$flagAddTable = "";
+	$flagCreateUser = "";
+	$flagSeeTable = "";
+	$flagAlterTable = "";
+	
 	$information_user ="";
-	if (isset($_SESSION['user_account']) and isset($_SESSION['password_account']) and isset($_SESSION['group_user']))
+	if (isset($_SESSION['user']) and isset($_SESSION['password']) and isset($_SESSION['permission']))
 	{
-		$flag = $_SESSION['group_user'];
-		if ($flag == "watch")
+		$flagPermission = $_SESSION['permission'];
+		
+		if ($flagPermission == "user")
 		{
-			$flag_create_user = "none";
-			$flag_delete_user = "none";
-			$flag_create_table = "none";
+			$flagCreateUser = "none";
 		}
-		if ($flag == "create")
-		{
-			$flag_create_user = "none";
-			$flag_delete_user = "none";
-		}
-		$information_user = $_SESSION['user_account'];
-		if (isset($_POST['tao-user']))
-		{
-			if ($_SESSION['group_user'] == "admin")
-			{
-				header('Location: create_account.php');
-			}
-		}
-		if (isset($_POST['xoa-user']))
-		{
-			if ($_SESSION['group_user'] == "admin")
-			{
-				header('Location: delete_account.php');
-			}
-		}
-		if (isset($_POST['sua']))
-		{
-			if ($_SESSION['group_user'] == "admin" or $_SESSION['group_user'] == "create")
-			{
-				header('Location: d.php');
-			}
-		}
-		if (isset($_POST['xem']))
-		{
-			header('Location: seeTable.php');
-		}
+		$information_user = $_SESSION['user'];
+		
 		if (isset($_POST['logout']))
 		{
-			unset($_SESSION['user_account']);
-			unset($_SESSION['password_account']);
-			unset($_SESSION['group_user']);
-			unset($_SESSION['data']);
-			unset($_SESSION['data_title']);
+			unset($_SESSION['user']);
+			unset($_SESSION['password']);
+			unset($_SESSION['permission']);
 			header('Location: login.php');
 		}
 				
@@ -61,7 +31,7 @@
 	{
 		header('Location: login.php');
 	}
-	*/
+	
 ?>
 <html lang="en">
 <head>
@@ -85,14 +55,30 @@
 <body>
 	<div class="container-fluid">
 		<div id="dialog" style="display:none;">
-			<ul id="tableList"></ul>
+			<ul id="tableList" class="list-group"></ul>
 		</div>
 		<div class="row">
-			<button id="btnCreateUser">Tạo tài khoản mới</button>
-			<button id="btnTableList">Các bảng hiện có</button>
-			<button id="btnAddTable">Thêm một bảng mới từ excel</button>
-			<button id="btnTableList">Thêm, sửa, xóa các dòng của bảng</button>
+			<div class="col">
+				<button type="submit" style = "display:<?php echo $flagCreateUser; ?>;" class="btn btn-outline-info" id="btnCreateUser">Tạo tài khoản mới</button>
+				<button type="submit" class="btn btn-outline-info" id="btnTableList">Các bảng hiện có</button>
+				<button type="submit" class="btn btn-outline-info" id="btnAddTable">Thêm một bảng mới từ excel</button>
+				<button type="submit" class="btn btn-outline-info" id="btnAlterTable">Thêm, sửa, xóa các dòng của bảng</button>		
+			</div>
+			<div class="col">
+				<div id="accordion">
+				<span style = "font-size:20px;"><?php echo $information_user; ?></span><span class="badge badge-light" style = "margin-left:85px;"><img src = "./images/user.png"></span>
+				<div>
+					<p>Quyền hạn: <span class="text-primary"><?php echo $flagPermission; ?></span></p>
+					<div >
+						<form method = "post" id = 'form-logout'>
+							<button type="submit" class="btn btn-outline-danger" name = "logout" id = "logout">Đăng xuất</button>
+						</form>
+					</div>
+				</div>
+			</div>
+			</div>
 		</div>
+		
 	</div>
 </body>
 <script>
@@ -111,6 +97,18 @@
 	}
 	
 	$(document).ready(function() {
+		
+		$("#btnCreateUser").click(() => {
+			 window.location="create_account.php";
+		});
+		$("#btnAddTable").click(() => {
+			 window.location="upload.php";
+		});
+		$("#btnAlterTable").click(() => {
+			 window.location="table.php";
+		});
+		
+		
 		$("#btnTableList").click(() => {
 			$.get({
 				url: "lib/ajax/GetAllTableAjax.php",
@@ -118,7 +116,7 @@
 				success: function(result){
 					var li = "";
 					result.forEach(item => {
-						li += "<li id=" + item.TABLE_NAME + ">" + item.TABLE_NAME + "  <a class='btn btn-primary' href=javascript:deleteTable('" + item.TABLE_NAME + "');>Delete</a>" +"</li>";						
+						li += "<li class='list-group-item d-flex justify-content-between align-items-center' id=" + item.TABLE_NAME + ">" + item.TABLE_NAME + "  <a class='text-light btn btn-primary' href=javascript:deleteTable('" + item.TABLE_NAME + "');>Delete</a>" +"</li>";						
 					});
 					$("#tableList").html(li);
 					$("#dialog").dialog({

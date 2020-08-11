@@ -15,7 +15,7 @@
 			$con = Connect();
 			
 			$username = isset($_POST['User']) ? $_POST['User'] : "";
-			$password = isset($_POST['User']) ? $_POST['Password'] : "";
+			$password = isset($_POST['Password']) ? $_POST['Password'] : "";
 			
 			//********************************************************\\
 			$patterm = '/select|from|where|join|SELECT|FROM|WHERE|JOIN|=|\'/';
@@ -29,7 +29,7 @@
 			$password = $purifier->purify(trim(preg_replace('/\s+/mu', ' ', $password)));
 			//********************************************************\\
 			
-			$sql = "SELECT user, password, password_backup, permission FROM tb_user WHERE user_account = '" . $username . "'";
+			$sql = "SELECT user, password, password_backup, permission FROM tb_user WHERE user = '" . $username . "'";
 			$query = mysqli_query($con, $sql);
 			if ($query)
 			{
@@ -37,10 +37,10 @@
 				if ($number > 0)
 				{
 					$row = mysqli_fetch_assoc($query);
-					if (hash_equals($row['password_account'], crypt($password, $row['password_account'])) or hash_equals($row['password_backup'], crypt($password, $row['password_backup'])))
+					if (hash_equals($row['password'], crypt($password, $row['password'])) or hash_equals($row['password_backup'], crypt($password, $row['password_backup'])))
 					{
-						$_SESSION['user_account'] = $row['user'];
-						$_SESSION['password_account'] = $row['password'];
+						$_SESSION['user'] = $row['user'];
+						$_SESSION['password'] = $row['password'];
 						$_SESSION['permission'] = $row['permission'];
 						header('Location: home.php');
 					}

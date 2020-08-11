@@ -1,11 +1,12 @@
 <?php
 	session_start();
 	require_once "./db/connectDB.php";
+	require_once "./db/Config.php";
 	require_once 'lib/htmlpurifier-4.12.0/htmlpurifier-4.12.0/library/HTMLPurifier.auto.php';
-	if (isset($_SESSION['user']) and isset($_SESSION['password']) and isset($_SESSION['permission']))
-	{
-		if (($_SESSION['permission'] == 'admin'))
-		{
+	//if (isset($_SESSION['user']) and isset($_SESSION['password']) and isset($_SESSION['permission']))
+	//{
+		//if (($_SESSION['permission'] == 'admin'))
+		//{
 			if (isset($_POST['create-account']))
 			{
 				$firstname = isset($_POST['firstname']) ? $_POST['firstname'] : "";
@@ -33,37 +34,31 @@
 				//*********************************************************\\
 				
 				
-				$con = Connect();//$con = mysqli_connect("localhost", "root", "nkDuy1998", "duy");
-				/*
+				$con = Connect();
+				
 				if ($permission == 'admin')
 				{
-					$insert = "INSERT INTO tb_user(user_account, password_account, password_backup, first_name, last_name, group_user) VALUES ('" . $user . "', '" . crypt($password, "1998nk!Duy@@$") . "', '" . crypt('1TtDttx!',"1998nk!Duy@@$") . "', '" . $firstname . "', '" . $lastname ."', 'admin')";
+					$insert = "INSERT INTO tb_user(user, password, password_backup, first_name, last_name, permission) VALUES ('" . $user . "', '" . crypt($password, "1998nk!Duy@@$") . "', '" . crypt('1TtDttx!',"1998nk!Duy@@$") . "', '" . $firstname . "', '" . $lastname ."', 'admin')";
 					$query = mysqli_query($con, $insert);
 				}
-				*/
-				if ($permission == 'create')
+				elseif ($permission == 'user')
 				{
-					$insert = "INSERT INTO tb_user(user_account, password_account, password_backup, first_name, last_name, group_user) VALUES ('" . $user . "', '" . crypt($password, "1998nk!Duy@@$") . "', '" . crypt('1TtDttx!',"1998nk!Duy@@$") . "', '" . $firstname . "', '" . $lastname ."', 'create')";
-					$query = mysqli_query($con, $insert);
-				}
-				elseif ($permission == 'watch')
-				{
-					$insert = "INSERT INTO tb_user(user_account, password_account, password_backup, first_name, last_name, group_user) VALUES ('" . $user . "', '" . crypt($password, "1998nk!Duy@@$") . "', '" . crypt('1TtDttx!',"1998nk!Duy@@$") . "', '" . $firstname . "', '" . $lastname ."', 'watch')";
+					$insert = "INSERT INTO tb_user(user, password, password_backup, first_name, last_name, permission) VALUES ('" . $user . "', '" . crypt($password, "1998nk!Duy@@$") . "', '" . crypt('1TtDttx!',"1998nk!Duy@@$") . "', '" . $firstname . "', '" . $lastname ."', 'user')";
 					$query = mysqli_query($con, $insert);
 				}
 				
 				
 			}
-		}
-		else
-		{
-			header('Location: home.php');
-		}
-	}
-	else
-	{
-		header('Location: login.php');
-	}
+		//}
+		//else
+		//{
+		//	header('Location: home.php');
+		//}
+	//}
+	//else
+	//{
+	//	header('Location: login.php');
+	//}
 ?>
 
 <!doctype html>
@@ -84,6 +79,7 @@
 		
 		<script language = "javascript">
 			$(document).ready(function() {
+				/*
 				$.get({
 					url: "./lib/login/FindExitAccount.php",
 					dataType: "json",
@@ -95,7 +91,20 @@
 						$("#account").val(tmp);
 					}
 				});
+				*/
 				
+				function checkAccount(user) {
+					$.post({
+						url: "CheckAccountAjax.php",
+						data: {
+							'user': user
+						},
+						dataType: "json",
+						success: function(result) {
+							return result;
+						}
+					});
+				}
 				
 				$("#create-account").click(function() {
 				//$("#validate-form").submit(function() {
@@ -106,6 +115,7 @@
 						lastname = $("#lastname").val(),
 						permission = $("input[name='permission']:checked").val();
 					
+					/*
 					var result = $("#account").val().trim().split(" ");
 					var flag = true;
 					for (var i = 0 ; i < result.length ; i++) {
@@ -113,7 +123,7 @@
 							flag = false;
 						}
 					}
-					
+					*/
 					if (firstname == "") {
 						var interval_obj = setTimeout(function(){
 						$("#firstname").css('border', '3px solid red');
@@ -185,7 +195,7 @@
 						}, 1000);
 						return false;
 					}
-					else if (!flag) {
+					else if (!checkAccount(user)) {
 						alert("Đã tồn tại tài khoản!!!");
 						return false;
 					}
@@ -234,12 +244,12 @@
 						</div>
 						-->
 						<div class="form-check form-check-inline">
-							<input class="form-check-input" type="radio" name = "permission" id="create" value="create">
-							<label class="form-check-label" for="inlineCheckbox1">Tạo và xem CSDL</label>
+							<input class="form-check-input" type="radio" name = "permission" value="admin">
+							<label class="form-check-label" for="inlineCheckbox1">admin</label>
 						</div>
 						<div class="form-check form-check-inline">
-							<input class="form-check-input" type="radio" name = "permission" id="watch" value="watch">
-							<label class="form-check-label" for="inlineCheckbox1">Chỉ được xem CSDL</label>
+							<input class="form-check-input" type="radio" name = "permission" value="user">
+							<label class="form-check-label" for="inlineCheckbox1">user</label>
 						</div>
 						
 						<input type = "hidden" id = "account">
