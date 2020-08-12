@@ -243,6 +243,20 @@ ul li {}
  Form
 ---------------------*/
 
+/*-------------------
+error when wrong input
+---------------------*/
+
+.error {
+	color:red;
+	border: 1px solid transparent;
+	padding: 0.3em;
+}
+
+.require {
+	color: red;
+}
+
 label {
     display: inline-block;
     max-width: 100%;
@@ -2421,7 +2435,7 @@ clip-path: polygon(10% 25%, 10% 0, 35% 0%, 65% 0%, 90% 0, 90% 25%, 90% 50%, 91% 
 .product-colors input[type=checkbox], input[type=radio] {
     box-sizing: border-box;
     padding: 0;
-    display: none;
+ 
 }
 .product-description{}
 

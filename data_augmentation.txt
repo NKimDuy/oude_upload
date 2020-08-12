@@ -5,3 +5,5 @@ https://medium.com/swlh/data-augmentation-in-natural-language-processing-756e942
 https://arxiv.org/pdf/1901.11196.pdf
 
 data augmentation ofr natural language processing
+
+https://github.com/jasonwei20/eda_nlp
