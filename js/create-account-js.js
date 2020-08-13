@@ -1,10 +1,14 @@
 $(document).ready(function() {
 	
-	$("#create-account").click(function() {
-	//$("#validate-form").submit(function() {
+	$("#create-account").click(function(e) {
+		// e.target.id : lấy id của dom element đang được thao tác
+		e.preventDefault(); // ngăn chặn sự kiện mặc định 
+		
+		var regularExpression = /select|from|where|join|SELECT|FROM|WHERE|JOIN/;
+		
 		var user = $("#user").val(),
 			password = $("#password").val(),
-			password2 = $("#password2").val(),
+			passwordConfirm = $("#passwordConfirm").val(),
 			firstname = $("#firstname").val(),
 			lastname = $("#lastname").val(),
 			permission = $("input[name='permission']:checked").val();
@@ -53,14 +57,14 @@ $(document).ready(function() {
 			//alert("chưa nhập mật khẩu!!!");
 			return false;
 		}
-		else if(password2 == "") {
+		else if(passwordConfirm == "") {
 			var interval_obj = setTimeout(function(){
-			$("#password2").css('border', '3px solid red');
+			$("#passwordConfirm").css('border', '3px solid red');
 			}, 20);
-			$('#password2').fadeOut(1000,function(){
+			$('#passwordConfirm').fadeOut(1000,function(){
 				$(this).css('border', '1px solid #ced4da');
 			});
-			$('#password2').fadeIn();
+			$('#passwordConfirm').fadeIn();
 			//alert("chưa nhập mật khẩu!!!");
 			return false;
 		}
@@ -72,7 +76,7 @@ $(document).ready(function() {
 			//alert("chưa cấp quyền!!!");
 			return false;
 		}
-		else if(password != password2) {
+		else if(password != passwordConfirm) {
 			//alert("Mật khẩu nhập lại không đúng!!!");
 			$("#check-account").append("<span id = 'incorrect' style = 'color:red;'>Mật khẩu không trùng khớp !!!</span>");
 			var interval_obj = setTimeout(function(){
@@ -80,7 +84,15 @@ $(document).ready(function() {
 			}, 1000);
 			return false;
 		}
+		else if ((regularExpression.test(user))) {
+			$("#reg").append("<span id = 'incorrect' style = 'color:red;'>không được chứa các key word !!!</span>");
+			var interval_obj = setTimeout(function(){
+				$("#incorrect").remove();
+			}, 1000);
+			return false;
+		}
 		else {
+			
 			$.get({
 				url: "lib/ajax/CheckAccountAjax.php",
 				data: {
@@ -88,14 +100,34 @@ $(document).ready(function() {
 				},
 				dataType: "json",
 				error: function(result){
-					alert('abc');
+					alert('có lỗi xảy ra khi xử lý với ajax');
 				},
 				success: function(result) {
-					alert(result);
+					if (result == true)
+						alert("Đã tồn tại tài khoản");
+					else {
+						$.get({
+							url: "lib/ajax/CreateAccountAjax.php",
+							data: {
+								'user': user,
+								'password': password,
+								'passwordConfirm': passwordConfirm,
+								'firstname': firstname,
+								'lastname': lastname,
+								'permission': permission
+							},
+							dataType: "json",
+							success: function(result) {
+								if (result == true)
+									alert("Đã tạo tài khoản thành công");
+								else
+									alert("Có lỗi xảy ra khi tạo tài khoản");
+							}
+						});
+					}
 				}
 			});
-			
-			
 		}
+		
 	});
 });

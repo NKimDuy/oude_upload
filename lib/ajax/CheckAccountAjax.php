@@ -31,7 +31,7 @@
 	$password = $purifier->purify(trim(preg_replace('/\s+/mu', '', $password)));
 	*/
 	
-	$sql = "SELECT user FROM tb_user where user = '" . $user . "'";
+	$sql = "SELECT * FROM tb_user where user = '" . $user . "'";
 	$query = mysqli_query($con, $sql);
 	if($query)
 	{
