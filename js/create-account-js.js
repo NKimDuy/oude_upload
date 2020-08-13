@@ -1,5 +1,30 @@
 $(document).ready(function() {
 	
+	$("#firstname").tooltipster({
+		content: "Họ không được chứa các key word sql và không được để trống",
+		theme: "tooltipster-light"
+	});
+	
+	$("#lastname").tooltipster({
+		content: "Tên không được chứa các key word sql và không được để trống",
+		theme: "tooltipster-light"
+	});
+	
+	$("#user").tooltipster({
+		content: "Tên đăng nhập không được chứa các key word sql và không được để trống",
+		theme: "tooltipster-light"
+	});
+	
+	$("#password").tooltipster({
+		content: "Mật khẩu không được chứa các key word sql và không được để trống",
+		theme: "tooltipster-light"
+	});
+	
+	$("#passwordConfirm").tooltipster({
+		content: "Mật khẩu không được chứa các key word sql và không được để trống",
+		theme: "tooltipster-light"
+	});
+	
 	$("#create-account").click(function(e) {
 		// e.target.id : lấy id của dom element đang được thao tác
 		e.preventDefault(); // ngăn chặn sự kiện mặc định 
@@ -12,84 +37,72 @@ $(document).ready(function() {
 			firstname = $("#firstname").val(),
 			lastname = $("#lastname").val(),
 			permission = $("input[name='permission']:checked").val();
-	
-		if (firstname == "") {
+		
+		function checkEmptyField(element) {
 			var interval_obj = setTimeout(function(){
-			$("#firstname").css('border', '3px solid red');
+			$(element).css('border', '3px solid red');
 			}, 20);
-			$('#firstname').fadeOut(1000,function(){
+			$(element).fadeOut(1000,function(){
 				$(this).css('border', '1px solid #ced4da');
 			});
-			$('#firstname').fadeIn();
-			//alert("chưa nhập họ!!!");
+			$(element).fadeIn();
 			return false;
 		}
-		else if(lastname == "") {
-			var interval_obj = setTimeout(function(){
-			$("#lastname").css('border', '3px solid red');
-			}, 20);
-			$('#lastname').fadeOut(1000,function(){
-				$(this).css('border', '1px solid #ced4da');
-			});
-			$('#lastname').fadeIn();
-			//alert("chưa nhập tên!!!");
-			return false;
-		}
-		else if(user == "") {
-			var interval_obj = setTimeout(function(){
-			$("#user").css('border', '3px solid red');
-			}, 20);
-			$('#user').fadeOut(1000,function(){
-				$(this).css('border', '1px solid #ced4da');
-			});
-			$('#user').fadeIn();
-			//alert("chưa nhập tài khoản!!!");
-			return false;
-		}
-		else if(password == "") {
-			var interval_obj = setTimeout(function(){
-			$("#password").css('border', '3px solid red');
-			}, 20);
-			$('#password').fadeOut(1000,function(){
-				$(this).css('border', '1px solid #ced4da');
-			});
-			$('#password').fadeIn();
-			//alert("chưa nhập mật khẩu!!!");
-			return false;
-		}
-		else if(passwordConfirm == "") {
-			var interval_obj = setTimeout(function(){
-			$("#passwordConfirm").css('border', '3px solid red');
-			}, 20);
-			$('#passwordConfirm').fadeOut(1000,function(){
-				$(this).css('border', '1px solid #ced4da');
-			});
-			$('#passwordConfirm').fadeIn();
-			//alert("chưa nhập mật khẩu!!!");
-			return false;
-		}
-		else if(permission == null) {
-			$("#check-permission").append("<span id = 'incorrect' style = 'color:red;'>Chưa cấp quyền !!!</span>");
+		
+		function checkCorrectField(element, message) {
+			$(element).append("<span id = 'incorrect' style = 'color:red;'>" + message + "!!!</span>");
 			var interval_obj = setTimeout(function(){
 				$("#incorrect").remove();
 			}, 1000);
 			//alert("chưa cấp quyền!!!");
 			return false;
 		}
+		
+		
+	
+		if (firstname == "") {
+			checkEmptyField("#firstname");
+			
+		}
+		else if(lastname == "") {
+			checkEmptyField("#lastname");
+			
+		}
+		else if(user == "") {
+			checkEmptyField("#user");
+		
+		}
+		else if(password == "") {
+			checkEmptyField("#password");
+			
+		}
+		else if(passwordConfirm == "") {
+			checkEmptyField("#passwordConfirm");
+			
+		}
+		else if(permission == null) {
+			checkCorrectField("#check-permission", "chưa cấp quyền");
+			
+		}
 		else if(password != passwordConfirm) {
-			//alert("Mật khẩu nhập lại không đúng!!!");
-			$("#check-account").append("<span id = 'incorrect' style = 'color:red;'>Mật khẩu không trùng khớp !!!</span>");
-			var interval_obj = setTimeout(function(){
-				$("#incorrect").remove();
-			}, 1000);
-			return false;
+			checkCorrectField("#check-account", "Mật khẩu không trùng khớp");
+			
+		}
+		else if ((regularExpression.test(firstname))) {
+			checkCorrectField("#regFirstname", "không được chứa các key word");
+			
+		}
+		else if ((regularExpression.test(lastname))) {
+			checkCorrectField("#regLastname", "không được chứa các key word");
+			
+		}
+		else if ((regularExpression.test(passwordConfirm))) {
+			checkCorrectField("#check-account", "không được chứa các key word");
+			
 		}
 		else if ((regularExpression.test(user))) {
-			$("#reg").append("<span id = 'incorrect' style = 'color:red;'>không được chứa các key word !!!</span>");
-			var interval_obj = setTimeout(function(){
-				$("#incorrect").remove();
-			}, 1000);
-			return false;
+			checkCorrectField("#regUser", "không được chứa các key word");
+			
 		}
 		else {
 			

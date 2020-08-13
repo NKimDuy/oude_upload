@@ -11,6 +11,8 @@
 	<link rel="stylesheet" href="css/style.css">
 	<link rel="stylesheet" href="css/fonts/fontawesome/css/fontawesome-all.css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link rel="stylesheet" href="css/tooltipster/tooltipster.bundle.min.css">
+	<link rel="stylesheet" href="css/tooltipster/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-light.min.css">
 </head>
 <body>
 	<!-- ============================================================== -->
@@ -52,22 +54,22 @@
 					<form method="post" id = "validate-form">
 					
 						<div class="form-group">
-							<label for="exampleInputFirstName1">Họ<span style = "color:red;"> * </span></label>
+							<label for="exampleInputFirstName1"  id="regFirstname">Họ<span style = "color:red;"> * </span></label>
 							<input type="text" class="form-control" name = "firstname" id="firstname">
 						</div>
 						
 						<div class="form-group">
-							<label for="exampleInputLastName1">Tên<span style = "color:red;"> * </span></label>
+							<label for="exampleInputLastName1" id="regLastname">Tên<span style = "color:red;"> * </span></label>
 							<input type="text" class="form-control" name = "lastname" id="lastname">
 						</div>
 						
 						<div class="form-group">
-							<label for="exampleInputUser1" id="reg">Tên đăng nhập<span style = "color:red;"> * </span></label>
+							<label for="exampleInputUser1" id="regUser">Tên đăng nhập<span style = "color:red;"> * </span></label>
 							<input type="text" class="form-control" name = "user" id="user">
 						</div>
 						
 						<div class="form-group">
-							<label for="exampleInputPassword1">Mật khẩu<span style = "color:red;"> * </span></label>
+							<label for="exampleInputPassword1"  id="regPassword">Mật khẩu<span style = "color:red;"> * </span></label>
 							<input type="password" class="form-control" name = "password" id="password">
 						</div>
 						
@@ -106,5 +108,6 @@
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<!--<script src="js/main-js.js"></script>-->
 	<script src="js/create-account-js.js"></script>
+	<script src="js/tooltipster/tooltipster.bundle.min.js" ></script>
 </body>
 </html>
