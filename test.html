@@ -13,10 +13,11 @@
 	<script>
 		$(document).ready(function() {
 			$("#btnCheck").click(() =>{
-				var txt = $("#txt").val();
-				//var regexp = /^([0-9]{2})\/([0-9]{2})\/([0-9]{4})$/.test(txt);
+				//var txt = $("#txt").val();
+				//var regexp = /^([0-9]{2})\/([0-9]{2})\/([0-9]{4})$/.test($("#txt").val());
 				//var regexp = /^[a-z]([a-z_\d])/i.test(txt);
-				var regexp = /tn_[\d]+/i.test(txt);
+				//var regexp = /tn_[\d]+/i.test(txt);
+				var regexp = /^[a-z]+$/i.test($("#txt").val());
 				$("#result").text(regexp).css("font-size","31px");
 			});
 		});

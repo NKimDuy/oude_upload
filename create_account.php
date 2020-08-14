@@ -1,3 +1,20 @@
+<?php
+	session_start();
+	require_once("db/Config.php");
+	if (isset($_SESSION['user']) and isset($_SESSION['success']) and isset($_SESSION['permission']))
+	{
+		if (($_SESSION['permission'] != 'admin ' . $_SESSION['user']))
+		{
+			header("Location:" . $conf["root"]);
+			//header('Location: home.php');
+		}
+	}
+	else
+	{
+		header("Location:" . $conf["root"] . "login.php");
+		//header('Location: login.php');
+	}
+?>
 <!doctype html>
 <html>
 <head>
@@ -109,5 +126,6 @@
 	<!--<script src="js/main-js.js"></script>-->
 	<script src="js/create-account-js.js"></script>
 	<script src="js/tooltipster/tooltipster.bundle.min.js" ></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>
 </html>

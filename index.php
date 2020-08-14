@@ -1,10 +1,12 @@
 <?php
+	
 	session_start();
 	require_once("db/Config.php");
+	$flagCreateAccount = "";
 	if (!isset($_SESSION['user']) and !isset($_SESSION['success']) and !isset($_SESSION['permission']))
 	{
-		//header('Location: login.php');
 		header("Location:" . $conf["root"] . "login.php");
+		
 	}
 	else
 	{
@@ -20,7 +22,9 @@
 	<!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
 	<link href="css/fonts/circular-std/style.css" rel="stylesheet">
 	<link rel="stylesheet" href="css/style.css">
 	<link rel="stylesheet" href="css/fonts/fontawesome/css/fontawesome-all.css">
@@ -55,9 +59,8 @@
 		<div class="dashboard-wrapper">
 			<div class="dashboard-ecommerce">
 				<div class="container-fluid dashboard-content ">
-
-					<ul id="tableList" class="list-group"></ul>
-
+					
+					
 				</div>
 			</div>
 			<!-- ============================================================== -->
@@ -72,35 +75,8 @@
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 	<!--<script src="js/main-js.js"></script>-->
-	
 	<script>
-		function deleteTable(table) {
-			$.post({
-				url: "lib/ajax/DeleteTableAjax.php",
-				data: {
-					'table_name': table
-				},
-				dataType: "json",
-				success: function(res) {
-					alert("Đã xóa thành công " + res);
-					$("#" + res).remove();
-				}
-			});
-		}
-		
 		$(document).ready(function() {
-			$.get({
-				url: "lib/ajax/GetAllTableAjax.php",
-				dataType: "json",
-				success: function(result){
-					var li = "";
-					result.forEach(item => {
-						li += "<li class='list-group-item d-flex justify-content-between align-items-center' id=" + item.TABLE_NAME + ">" + item.TABLE_NAME + "  <a class='text-light btn btn-primary' href=javascript:deleteTable('" + item.TABLE_NAME + "');>Delete</a>" +"</li>";						
-					});
-					$("#tableList").html(li);
-					
-				}
-			});
 			$("#removeCreateAccount").remove();
 		});
 	</script>

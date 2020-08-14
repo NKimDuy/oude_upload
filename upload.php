@@ -1,3 +1,20 @@
+<?php
+	session_start();
+	require_once("db/Config.php");
+	$flagCreateAccount = ""; // không cho phép thao tác nút tạo tài khoản , nếu không phải là admin
+	if (!isset($_SESSION['user']) and !isset($_SESSION['success']) and !isset($_SESSION['permission']))
+	{
+		header("Location:" . $conf["root"] . "login.php");
+		//header('Location: login.php');
+	}
+	else
+	{
+		if (($_SESSION['permission'] != 'admin ' . $_SESSION['user']))
+		{
+			$flagCreateAccount = "removeCreateAccount";
+		}
+	}
+?>
 <!doctype html>
 <html>
 <head>
@@ -70,5 +87,11 @@
 	<!--<script src="js/main-js.js"></script>-->
 	<script lang="javascript" src="./lib/sheetjs/dist/xlsx.full.min.js"></script>
 	<script src="js/upload-js.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	<script>
+		$(document).ready(function() {
+			$("#removeCreateAccount").remove();
+		});
+	</script>
 </body>
 </html>

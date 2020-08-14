@@ -13,7 +13,7 @@ function checkAll() { // chọn hoặc bỏ chọn tất cả các checkbox
 
 $(document).ready(() =>{
 	
-	var rowsGetByExcel = 0;
+	var rowsGetByExcel = 0; // các dòng hiện có trong excel
 	var flagTitle = false; // cờ dùng để kiểm tra các cột của excel có đúng định dạng hay không
 	var checkTitle = ["stt", "ma_dvlk", "ten_dvlk", "mssv", "ho", "ten", "ngay_sinh", "noi_sinh", "gioi_tinh", "dan_toc"
 					, "quoc_tich", "nganh_dt", "giay_ks", "bang_cap", "hinh", "phieu_dkxcb", "ct_dt", "hinh_thuc_dt", "diem"
@@ -130,7 +130,7 @@ $(document).ready(() =>{
 	
 	$("#btnAdd").click(() => {
 		let addRowSuccessfully = true;
-		let rowsAddToSql = 0;
+		let rowsAddToSql = 0; // các dòng sẽ được thêm vào sql khi thành công
 		//let xlsxRows = 
 		$.post({
 			url: "./lib/ajax/CheckExistTableAjax.php",
@@ -151,8 +151,9 @@ $(document).ready(() =>{
 					
 					if (valid)
 					{
+						var rowChecked = 0;
 						$("#upload table input:checked:not(#chkAll)").each(function(index, item) {
-								
+							rowChecked += 1;
 							var R = $(item).attr("id"); // lấy dòng tương ứng với ID của checkbox
 							
 							var value_temp = [];
@@ -188,8 +189,8 @@ $(document).ready(() =>{
 									//addRowSuccessfully = true;
 									rowsAddToSql += 1;
 									//alert(rowsAddToSql);
-									if(rowsAddToSql == rowsGetByExcel - 1)
-										alert("Đã thêm các dòng được đánh dấu vào cơ sở dữ liệu");
+									if( (rowsAddToSql == rowsGetByExcel - 1) || (rowsAddToSql == rowChecked) )
+										alert("Đã thêm " + rowsAddToSql + " dòng được đánh dấu vào cơ sở dữ liệu");
 								}
 							});
 							//if(!addRowSuccessfully)
@@ -210,5 +211,5 @@ $(document).ready(() =>{
 		});
 	});
 	
-	
+	$("#removeCreateAccount").remove();
 });

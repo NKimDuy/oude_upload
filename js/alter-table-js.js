@@ -19,7 +19,7 @@ function checkLength(element, column, min, max) { // kiểm tra độ dài của
 }
 
 function checkRegexp( element, regexp, errorMessage ) { // kiểm tra định dạng của trường nhập vào có hợp lệ không
-	if ( !( regexp.test(element.val()))) { // text trả về true nếu chuỗi hợp lệ
+	if ( !( regexp.test(element.val()))) { // text trả về true nếu chuỗi trùng khớp
 		element.addClass("ui-state-error");
 		updateTips(errorMessage);
 		return false;
@@ -32,46 +32,47 @@ function checkRegexp( element, regexp, errorMessage ) { // kiểm tra định d�
 function regexpForCreateUpdate(strUrl, dialogId) { // hàm dùng chung cho cập nhập và tạo mới dòng, sẽ kiểm tra và gửi dữ liệu sang file php
 	var data = [];
 	var valid = true;
-	valid = valid && checkLength($("#txtMadvlk"),"Mã đơn vị liên kết", 0, 15);
-	valid = valid && checkLength($("#txtTendvlk"),"Tên đơn vị liên kết", 0, 500);
-	valid = valid && checkLength($("#txtMssv"),"Mã số sinh viên", 0, 15);
-	valid = valid && checkLength($("#txtHo"),"Họ", 0, 50);
-	valid = valid && checkLength($("#txtTen"),"Tên", 0, 15);
-	valid = valid && checkLength($("#txtNgaySinh"),"ngày sinh", 0, 20);
-	valid = valid && checkLength($("#txtNoiSinh"),"Nơi sinh", 0, 50);
-	valid = valid && checkLength($("#txtDanToc"),"Dân tộc", 0, 15);
-	valid = valid && checkLength($("#txtQuocTich"),"Quốc tịch", 0, 50);
-	valid = valid && checkLength($("#txtNganhDaoTao"),"Ngành đào tạo", 0, 100);
-	valid = valid && checkLength($("#txtGiayKhaiSinh"),"Giấy khai sinh", 0, 50);
-	valid = valid && checkLength($("#txtBangCap"),"Bằng cấp", 0, 50);
-	valid = valid && checkLength($("#txtHtdt"),"Hình thức đào tạo", 0, 50);
-	valid = valid && checkLength($("#txtDiem"),"Điểm", 0, 5);
-	valid = valid && checkLength($("#txtXepLoai"),"Xếp loại", 0, 50);
-	valid = valid && checkLength($("#txtHoKd"),"Họ không dấu", 0, 50);
-	valid = valid && checkLength($("#txtTenKd"),"Tên không dấu", 0, 15);
-	valid = valid && checkLength($("#txtHoTenKd"),"Họ và tên không dấu", 0, 100);
-	valid = valid && checkLength($("#txtHocKi"),"Học kì ", 0, 50);
-	valid = valid && checkLength($("#txtCthk"),"Chi tiết học kì", 0, 50);
+	valid = valid && checkLength($("#txtMadvlk"),"Mã đơn vị liên kết", 1, 15);
+	valid = valid && checkLength($("#txtTendvlk"),"Tên đơn vị liên kết", 1, 500);
+	valid = valid && checkLength($("#txtMssv"),"Mã số sinh viên", 1, 15);
+	valid = valid && checkLength($("#txtHo"),"Họ", 1, 50);
+	valid = valid && checkLength($("#txtTen"),"Tên", 1, 15);
+	valid = valid && checkLength($("#txtNgaySinh"),"ngày sinh", 1, 10);
+	valid = valid && checkLength($("#txtNoiSinh"),"Nơi sinh", 1, 50);
+	valid = valid && checkLength($("#txtDanToc"),"Dân tộc", 1, 15);
+	valid = valid && checkLength($("#txtQuocTich"),"Quốc tịch", 1, 50);
+	valid = valid && checkLength($("#txtNganhDaoTao"),"Ngành đào tạo", 1, 100);
+	valid = valid && checkLength($("#txtGiayKhaiSinh"),"Giấy khai sinh", 1, 50);
+	valid = valid && checkLength($("#txtBangCap"),"Bằng cấp", 1, 50);
+	valid = valid && checkLength($("#txtHtdt"),"Hình thức đào tạo", 1, 50);
+	valid = valid && checkLength($("#txtDiem"),"Điểm", 1, 50);
+	valid = valid && checkLength($("#txtXepLoai"),"Xếp loại", 1, 50);
+	valid = valid && checkLength($("#txtHoKd"),"Họ không dấu", 1, 50);
+	valid = valid && checkLength($("#txtTenKd"),"Tên không dấu", 1, 15);
+	valid = valid && checkLength($("#txtHoTenKd"),"Họ và tên không dấu", 1, 100);
+	valid = valid && checkLength($("#txtHocKi"),"Học kì ", 1, 50);
+	valid = valid && checkLength($("#txtCthk"),"Chi tiết học kì", 1, 50);
 	
 	//valid = valid && checkRegexp($("#txtMssv"), /^([0-9a-zA-Z])+$/, "Mã số sinh viên bao gồm số hoặc chữ (viết thường hoặc viết hoa)"); // yes
 	//valid = valid && checkRegexp($("#txtMadvlk"), /^([0-9a-zA-Z])+$/, "Mã đơn vị liên kết bao gồm số hoặc chữ (viết thường hoặc viết hoa)"); // yes
 	//valid = valid && checkRegexp($("#txtTendvlk"), /^([0-9a-zA-Z\s])+$/, "Tên đơn vị liên kết bao gồm số hoặc chữ (viết thường hoặc viết hoa)"); // yes
-	//valid = valid && checkRegexp($("#txtHo"), /[^\x20-\x7E]+/g, "Họ bao gồm chữ (viết thường hoặc viết hoa)"); // yes
-	//valid = valid && checkRegexp($("#txtTen"), /^([a-zA-Z])+$/, "Tên bao gồm chữ (viết thường hoặc viết hoa)"); // yes
-	//valid = valid && checkRegexp($("#txtNoiSinh"), /^([a-zA-Z\s])+$/, "Nơi sinh bao gồm chữ (viết thường hoặc viết hoa)"); // yes
-	//valid = valid && checkRegexp($("#txtDanToc"), /^([a-zA-Z\s])+$/, "Dân tộc bao gồm chữ (viết thường hoặc viết hoa)"); // yes
-	//valid = valid && checkRegexp($("#txtQuocTich"), /^([a-zA-Z\s])+$/, "Quốc tịch bao gồm chữ (viết thường hoặc viết hoa)"); // yes
-	//valid = valid && checkRegexp($("#txtNganhDaoTao"), /^([a-zA-Z\s])+$/, "Ngành đào tạo bao gồm chữ (viết thường hoặc viết hoa)"); // yes
-	//valid = valid && checkRegexp($("#txtGiayKhaiSinh"), /^([a-zA-Z\s])+$/, "Giấy khai sinh bao gồm chữ (viết thường hoặc viết hoa)"); // yes
-	//valid = valid && checkRegexp($("#txtHtdt"), /^([a-zA-Z\s])+$/, "Hình thức đào tạo bao gồm chữ (viết thường hoặc viết hoa)"); // yes
+	//valid = valid && checkRegexp($("#txtHo"), /^[a-z]+$/i, "Họ bao gồm chữ (viết thường hoặc viết hoa)"); // yes
+	//valid = valid && checkRegexp($("#txtTen"), /^[a-z]+$/i, "Tên bao gồm chữ (viết thường hoặc viết hoa)"); // yes
+	//valid = valid && checkRegexp($("#txtNoiSinh"), /^[a-z]+$/i, "Nơi sinh bao gồm chữ (viết thường hoặc viết hoa)"); // yes
+	//valid = valid && checkRegexp($("#txtDanToc"), /^[a-z]+$/i, "Dân tộc bao gồm chữ (viết thường hoặc viết hoa)"); // yes
+	//valid = valid && checkRegexp($("#txtQuocTich"), /^[a-z]+$/i, "Quốc tịch bao gồm chữ (viết thường hoặc viết hoa)"); // yes
+	//valid = valid && checkRegexp($("#txtNganhDaoTao"), /^[a-z]+$/i, "Ngành đào tạo bao gồm chữ (viết thường hoặc viết hoa)"); // yes
+	//valid = valid && checkRegexp($("#txtGiayKhaiSinh"), /^[a-z]+$/i, "Giấy khai sinh bao gồm chữ (viết thường hoặc viết hoa)"); // yes
+	//valid = valid && checkRegexp($("#txtHtdt"), /^[a-z]+$/i, "Hình thức đào tạo bao gồm chữ (viết thường hoặc viết hoa)"); // yes
 	//valid = valid && checkRegexp($("#txtDiem"), /^([0-9])+$/, "Điểm phải là số"); // yes
-	//valid = valid && checkRegexp($("#txtXepLoai"), /^([a-zA-Z\s])+$/, "Xếp loại đào tạo bao gồm chữ (viết thường hoặc viết hoa)"); // yes
-	//valid = valid && checkRegexp($("#txtHoKd"), /^([a-zA-Z\s])+$/, "Họ không dấu bao gồm chữ (viết thường hoặc viết hoa)"); // yes
-	//valid = valid && checkRegexp($("#txtTenKd"), /^([a-zA-Z])+$/, "Tên không dấu bao gồm chữ (viết thường hoặc viết hoa)"); // yes
-	//valid = valid && checkRegexp($("#txtHoTenKd"), /^([a-zA-Z\s])+$/, "Họ và tên không dấu bao gồm chữ (viết thường hoặc viết hoa)"); // yes
-	//valid = valid && checkRegexp($("#txtHocKi"), /^[a-z]([0-9a-z_\s])+$/i, "Học kì gồm các kí tự số, chữ, dấu _, và phải bắt đầu là kí tự");
+	//valid = valid && checkRegexp($("#txtXepLoai"), /^[a-z]+$/i, "Xếp loại đào tạo bao gồm chữ (viết thường hoặc viết hoa)"); // yes
+	//valid = valid && checkRegexp($("#txtHoKd"), /^[a-z]+$/i, "Họ không dấu bao gồm chữ (viết thường hoặc viết hoa)"); // yes
+	//valid = valid && checkRegexp($("#txtTenKd"), /^[a-z]+$/i, "Tên không dấu bao gồm chữ (viết thường hoặc viết hoa)"); // yes
+	//valid = valid && checkRegexp($("#txtHoTenKd"), /^[a-z]+$/i, "Họ và tên không dấu bao gồm chữ (viết thường hoặc viết hoa)"); // yes
+	//valid = valid && checkRegexp($("#txtHocKi"), /tn_[\d]+/i, "Học kì gồm các kí tự số, chữ, dấu _, và phải bắt đầu là kí tự");
 	//valid = valid && checkRegexp($("#txtBangCap"), /^[a-z]([0-9a-z-\s])+$/i, "Bằng cấp gồm các kí tự số, chữ, dấu -, và phải bắt đầu là kí tự");
 	//valid = valid && checkRegexp($("#txtCthk"), /^[a-z]([0-9a-z-\s])+$/i, "Chi tiết học kì gồm các kí tự số, chữ, dấu -, và phải bắt đầu là kí tự");
+	//valid = valid && ( checkRegexp($("#txtNgaySinh"), /^([\d]{2})\/([\d]{2})\/([\d]{4})$/, "ngày sinh có thể là dd/mm/yyyy hoặc yyyy")  || checkRegexp($("#txtNgaySinh"), /^([\d]{4})$/, "ngày sinh có thể là dd/mm/yyyy hoặc yyyy"));
 	
 	
 	if (valid) { // nếu hợp lệ sẽ chuyển dữ liệu của các thẻ input sang file php
@@ -275,10 +276,15 @@ function deleteRow(mssv) {
 					dataType: "json",
 					success: function() {
 						
+					},
+					'complete': function(result){
+						//alert(strUrl);
+						$("#dialogDelete").dialog( "close" );
+						loadTable(); // khi hoàn thành thêm hoặc xóa thì sẽ load lại bảng để lấy dữ liệu mới
 					}
 				});
-				$("#dialogDelete").dialog( "close" );
-				loadTable(); // khi hoàn thành thêm hoặc xóa thì sẽ load lại bảng để lấy dữ liệu mới
+				//$("#dialogDelete").dialog( "close" );
+				//loadTable(); // khi hoàn thành thêm hoặc xóa thì sẽ load lại bảng để lấy dữ liệu mới
 			},
 			"Cancel": function() {
 				$( this ).dialog( "close" );
@@ -503,4 +509,6 @@ $(document).ready(function() {
 	});
 	
 	tooltip();
+	
+	$("#removeCreateAccount").remove();
 });
