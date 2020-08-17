@@ -10,8 +10,7 @@
 	//$number = mysqli_num_rows($query);
 	echo json_encode($tableName); 
 	
-	//echo json_encode("duy"); 
-	
+	DisConnect();
 	
 ?>  
  

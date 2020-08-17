@@ -72,49 +72,11 @@
 		}
 	</style>
 
-	
-	<link rel="stylesheet" href="css/fonts/fontawesome/css/fontawesome-all.css">
-	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-	<link rel="stylesheet" href="css/login.css" />
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-	<link rel="stylesheet" type="text/css" href="css/util.css">
-	<link rel="stylesheet" type="text/css" href="css/main.css">
-</head>
-<body>
 	
-	<div class="limiter">
-		<div class="container-login100" style="background-image: url('images/bg-01.jpg');">
-			<div class="wrap-login100 p-t-30 p-b-50">
-				<span class="login100-form-title p-b-41">
-					Account Login
-				</span>
-				<form class="login100-form validate-form p-b-33 p-t-5">
-
-					<div class="wrap-input100 validate-input" data-validate = "Enter username">
-						<input class="input100" type="text" id="User" name = "User" placeholder="User name">
-						<!--<span class="focus-input100" data-placeholder="&#xe82a;"></span>-->
-					</div>
-
-					<div class="wrap-input100 validate-input" data-validate="Enter password">
-						<input class="input100" type="password" id="Password" name = "Password" placeholder="Password">
-						<!--<span class="focus-input100" data-placeholder="&#xe80f;"></span>-->
-					</div>
-
-					<div class="container-login100-form-btn m-t-32">
-						<button class="login100-form-btn" id = "login" name = "login">
-							Login
-						</button>
-					</div>
-
-				</form>
-			</div>
-		</div>
-	</div>
-	<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-	<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-	<script src="js/main.js"></script>
 	<script language = "javascript">
 		$(document).ready(function() {
 			
@@ -132,6 +94,32 @@
 			
 		});
 	</script>
+</head>
+<body>
+	<div class = "container">
+		<!--<div class="row align-items-center">
+			<div class="col align-self-center">
+				some thing !!!!
+			</div>
+		</div>-->
+		
+		<div class = "row justify-content-center">
+			<div class = "col-4 align-self-center p-3 mb-2 bg-info text-white">
+				<img src = "./images/oude.png" alt = "OUDE">
+				<div class="text-center font-weight-normal font-weight-bold">ĐĂNG NHẬP</div>
+				<form method = "post" id = "validate-form">
+					<div class="form-group">
+						<input type="text" class="form-control" id="User" name = "User" aria-describedby="emailHelp" placeholder="Enter User">
+					</div>
+					<div class="form-group">
+						<input type="password" class="form-control" id="Password" name = "Password" placeholder="Password">
+					</div>
+					<button type="submit" class="btn btn-primary btn-lg btn-block" id = "login" name = "login">ĐĂNG NHẬP</button>
+				</form>
+			</div>
+		</div>
+		
+	</div>
 </body>
 </html>
 <?php } ?>

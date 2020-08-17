@@ -53,5 +53,5 @@
 	{
 		echo json_encode(false);
 	}
-	
+	DisConnect();
 ?>

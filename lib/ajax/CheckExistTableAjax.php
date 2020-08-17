@@ -23,4 +23,5 @@
 	{
 		echo json_encode(0);
 	}
+	DisConnect();
 ?>  

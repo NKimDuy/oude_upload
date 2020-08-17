@@ -12,9 +12,6 @@
 	$data_title = $_POST["title"];
 	$data = $_POST["data"];
 	
-	
-	
-	
 	$notification = "";
 	
 	/*-------------kiểm tra table đã tồn tại vs tạo table ------------------*/
@@ -76,7 +73,7 @@
 	
 	/*-----------------------------------------------*/
 	
-	
+	DisConnect();
 	
 	
 	

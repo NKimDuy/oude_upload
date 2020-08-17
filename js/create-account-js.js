@@ -29,7 +29,7 @@ $(document).ready(function() {
 		// e.target.id : lấy id của dom element đang được thao tác
 		e.preventDefault(); // ngăn chặn sự kiện mặc định 
 		
-		var regularExpression = /select|from|where|join|SELECT|FROM|WHERE|JOIN/;
+		var regularExpression = /select|from|where|join|SELECT|FROM|WHERE|JOIN/; // kiểm tra thông tin nhập vào có chứa các kí tự html không
 		
 		var user = $("#user").val(),
 			password = $("#password").val(),
@@ -38,7 +38,7 @@ $(document).ready(function() {
 			lastname = $("#lastname").val(),
 			permission = $("input[name='permission']:checked").val();
 		
-		function checkEmptyField(element) {
+		function checkEmptyField(element) { // báo lỗi nếu các trường trống
 			var interval_obj = setTimeout(function(){
 			$(element).css('border', '3px solid red');
 			}, 20);
@@ -49,7 +49,7 @@ $(document).ready(function() {
 			return false;
 		}
 		
-		function checkCorrectField(element, message) {
+		function checkCorrectField(element, message) { // báo lỗi nếu dữ liệu nhập vào không hợp lệ
 			$(element).append("<span id = 'incorrect' style = 'color:red;'>" + message + "!!!</span>");
 			var interval_obj = setTimeout(function(){
 				$("#incorrect").remove();
@@ -105,7 +105,7 @@ $(document).ready(function() {
 			
 		}
 		else {
-			
+			// nếu không có lỗi xảy ra, sẽ gửi dữ liệu sang php để thêm tài khoản
 			$.get({
 				url: "lib/ajax/CheckAccountAjax.php",
 				data: {

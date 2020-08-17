@@ -22,5 +22,5 @@
 	{
 		echo json_encode($e->getMessage());
 	}
-	
+	DisConnect();
 ?>  

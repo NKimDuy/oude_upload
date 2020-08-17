@@ -46,7 +46,7 @@ $(document).ready(() =>{
 			for(var R = range.s.r; R <= range.e.r; ++R) {
 				rowsGetByExcel += 1;
 			}
-			alert(rowsGetByExcel - 1);
+			alert(rowsGetByExcel - 1); // hiện các dòng có trong excel
 			if (title.length != checkTitle.length) { // kiểm tra mảng chứa cột tiêu đề có khớp với yêu cầu hay không
 				$("#notification").text("file excel nhập vào không hợp lệ");
 			}
@@ -87,13 +87,13 @@ $(document).ready(() =>{
 		
 	});
 	
-	function updateTip(text) {
+	function updateTip(text) { // hiện thông báo lỗi
 		$("#notification") // chọn seletor có lớp là error
 		.text(text);
 		
 	}
 	
-	function checkRegexp( element, regexp, errorMessage) {
+	function checkRegexp( element, regexp, errorMessage) { // kiểm tra ngoại lệ tên bảng
 		if ( !( regexp.test(element.val()))) {
 			updateTip(errorMessage);
 			return false;
@@ -102,7 +102,7 @@ $(document).ready(() =>{
 		}
 	}
 	
-	function checkLength(element, column, min, max) {
+	function checkLength(element, column, min, max) { // kiểm tra độ dài tên bảng
 		if ( element.val().length > max || element.val().length < min ) {
 			updateTip("độ dài  " + column + " phải nằm trong khoảng " + min + " đến " + max + ".");
 			return false;
@@ -112,7 +112,7 @@ $(document).ready(() =>{
 	}
 	
 	
-	function checkCheckbox() {
+	function checkCheckbox() { // kiểm tra có checkbox được chọn hay không
 		let valid = true;
 		let count = 0;
 		$("#upload table input:checked:not(#chkAll)").each(function(index, item) {
@@ -133,7 +133,7 @@ $(document).ready(() =>{
 		let rowsAddToSql = 0; // các dòng sẽ được thêm vào sql khi thành công
 		//let xlsxRows = 
 		$.post({
-			url: "./lib/ajax/CheckExistTableAjax.php",
+			url: "./lib/ajax/CheckExistTableAjax.php", // file ajax kiểm tra tên bảng đã tồn tại hay chưa
 			data: {
 				"table_name": $("#txtTabName").val()
 			},
@@ -151,7 +151,7 @@ $(document).ready(() =>{
 					
 					if (valid)
 					{
-						var rowChecked = 0;
+						var rowChecked = 0; // các dòng mà người dùng chọn ( không chọn hết )
 						$("#upload table input:checked:not(#chkAll)").each(function(index, item) {
 							rowChecked += 1;
 							var R = $(item).attr("id"); // lấy dòng tương ứng với ID của checkbox
@@ -211,5 +211,5 @@ $(document).ready(() =>{
 		});
 	});
 	
-	$("#removeCreateAccount").remove();
+	$("#removeCreateAccount").remove(); // xoá nút thêm account nếu quyền không phải admin
 });

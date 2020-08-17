@@ -137,7 +137,7 @@ function createRow() {
 		},
 		dataType: "json",
 		success: result => {
-			
+			// chuyển tất cả các trường về rỗng, riêng cột stt sẽ được tự động tăng
 			$("#txtStt").val(parseInt(result["MAX(stt)"]) + 1), $("#txtMadvlk").val(""), $("#txtTendvlk").val(""),
 			
 			$("#txtMssv").val(""), $("#txtHo").val(""), $("#txtTen").val(""),
@@ -495,7 +495,7 @@ $(document).ready(function() {
 				
 			});
 			
-			$("#tableName").append(option);
+			$("#tableName").append(option); // tableName là id của selectBox , lúc trang web đc load thì sẽ thêm các bảng vào selectBox
 			loadTable();
 			
 		}
@@ -510,5 +510,5 @@ $(document).ready(function() {
 	
 	tooltip();
 	
-	$("#removeCreateAccount").remove();
+	$("#removeCreateAccount").remove(); // sẽ xóa button thêm tài khoản nếu không có quyền admin
 });
