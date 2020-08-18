@@ -198,12 +198,16 @@
 			</div>
 		</div>
 	</div>
+	
 	<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<!--<script src="js/main-js.js"></script>-->
 	<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
 	<script src="js/tooltipster/tooltipster.bundle.min.js" ></script>
 	<script src="js/alter-table-js.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	
+	
+	
 </body>
 </html>

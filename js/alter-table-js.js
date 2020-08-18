@@ -174,11 +174,11 @@ function createRow() {
 				my: "center",
 				at: "center",
 				buttons: {
-					"Add": function() {
+					"Thêm": function() {
 						regexpForCreateUpdate("./lib/ajax/AddDataTableAjax.php", "#dialog");
 						
 					},
-					"Cancel": function() {
+					"Hủy": function() {
 						$( this ).dialog( "close" );
 					}
 				},
@@ -191,7 +191,7 @@ function createRow() {
 }
 
 function updateRow(mssv) {
-	$("#dialog").attr("title", "Update Row");
+	$("#dialog").attr("title", "Cập nhập thông tin sinh viên");
 	$("#txtStt").attr("disabled",true);
 	$.post({
 		url: "./lib/ajax/GetOneDataAjax.php",
@@ -236,10 +236,10 @@ function updateRow(mssv) {
 				my: "center",
 				at: "center",
 				buttons: {
-					"Update": function(){
+					"Cập nhật": function(){
 						regexpForCreateUpdate("./lib/ajax/UpdateTableAjax.php", "#dialog");
 					},
-					"Cancel": function() {
+					"Hủy": function() {
 						$( this ).dialog( "close" );
 					}
 				},
@@ -256,7 +256,7 @@ function updateRow(mssv) {
 }
 	
 function deleteRow(mssv) {
-	$("#mssvDelete").text("delete: " + mssv);
+	$("#mssvDelete").text("Xóa sinh viên có mã số: " + mssv);
 	$("#dialogDelete").dialog({
 		height: 'auto',
 		width: 'auto',
@@ -265,7 +265,7 @@ function deleteRow(mssv) {
 		my: "center",
 		at: "center",
 		buttons: {
-			"Do you wanna delete ?": function() {
+			"Có chắc chắn muốn xóa ?": function() {
 				
 				$.post({
 					url: "./lib/ajax/DeleteDataTableAjax.php",
@@ -286,7 +286,7 @@ function deleteRow(mssv) {
 				//$("#dialogDelete").dialog( "close" );
 				//loadTable(); // khi hoàn thành thêm hoặc xóa thì sẽ load lại bảng để lấy dữ liệu mới
 			},
-			"Cancel": function() {
+			"Hủy": function() {
 				$( this ).dialog( "close" );
 			}
 		},
@@ -331,9 +331,9 @@ function loadTable() {
 				success: function(result) {
 					result.forEach(item => {
 						addTdToTable += "<tr>"; // +=
-						addTdToTable += "<td><a href =" + "javascript:updateRow('" + item.mssv + "');>Update</a></td>"
+						addTdToTable += "<td><a href =" + "javascript:updateRow('" + item.mssv + "');>Cập nhât</a></td>"
 						//addTdToTable += "<td><a id = '" + item.mssv + "' href = '#'>Update</a></td>"
-									 +"<td><a href =" + "javascript:deleteRow('" + item.mssv + "');>Delete</a></td>"
+									 +"<td><a href =" + "javascript:deleteRow('" + item.mssv + "');>Xóa</a></td>"
 									 + "<td>" + item.stt + "</td>"
 									 +"<td>" + item.ma_dvlk + "</td>"
 									 +"<td>" + item.ten_dvlk + "</td>"

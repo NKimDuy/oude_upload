@@ -19,7 +19,7 @@ $(document).ready(function() {
 		success: function(result){
 			var li = "";
 			result.forEach(item => {
-				li += "<li class='list-group-item d-flex justify-content-between align-items-center' id=" + item.TABLE_NAME + ">" + item.TABLE_NAME + "  <a class='text-light btn btn-primary' href=javascript:deleteTable('" + item.TABLE_NAME + "');>Delete</a>" +"</li>";						
+				li += "<li class='list-group-item d-flex justify-content-between align-items-center' id=" + item.TABLE_NAME + ">" + item.TABLE_NAME + "  <a class='text-light btn btn-primary' href=javascript:deleteTable('" + item.TABLE_NAME + "');>Xóa</a>" +"</li>";						
 			});
 			$("#tableList").html(li);
 			
