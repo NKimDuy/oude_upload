@@ -191,8 +191,10 @@ function createRow() {
 }
 
 function updateRow(mssv) {
+	$("#txtMssv").attr("disabled", true);
 	$("#dialog").attr("title", "Cập nhập thông tin sinh viên");
 	$("#txtStt").attr("disabled",true);
+	
 	$.post({
 		url: "./lib/ajax/GetOneDataAjax.php",
 		data: {

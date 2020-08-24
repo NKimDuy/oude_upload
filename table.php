@@ -62,7 +62,7 @@
 				<div class="container-fluid dashboard-content"  style="overflow-x:auto;">
 					
 					<!-- dialog when delete a row  -->
-					<div id="dialogDelete" style="display:none;" title="Delete Row">
+					<div id="dialogDelete" style="display:none;" title="Xóa sinh viên">
 						<p id="mssvDelete"></p>
 					</div>
 					<!---------------------------------------------------------------->
@@ -77,7 +77,7 @@
 									<input class="form-control" type="text" name="stt" id="txtStt" />
 									
 									<label for="txtStt">MSSV</label><span class ="require"> *</span>
-									<input class="form-control" type="text" name="mssv" id="txtMssv" disabled />
+									<input class="form-control" type="text" name="mssv" id="txtMssv"  />
 									
 									<label for="txtMadvlk">Mã đơn vị liên kết</label><span class ="require"> *</span>
 									<input class="form-control" type="text" name="maDvlk" id="txtMadvlk" />
