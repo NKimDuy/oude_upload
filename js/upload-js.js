@@ -211,5 +211,5 @@ $(document).ready(() =>{
 		});
 	});
 	
-	$("#removeCreateAccount").remove(); // xoá nút thêm account nếu quyền không phải admin
+	
 });

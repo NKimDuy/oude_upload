@@ -512,5 +512,5 @@ $(document).ready(function() {
 	
 	tooltip();
 	
-	$("#removeCreateAccount").remove(); // sẽ xóa button thêm tài khoản nếu không có quyền admin
+	
 });

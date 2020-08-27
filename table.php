@@ -206,7 +206,7 @@
 	<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
 	<script src="js/tooltipster/tooltipster.bundle.min.js" ></script>
 	<script src="js/alter-table-js.js"></script>
-	
+	<script src="js/delete-button-create-js.js"></script>
 	
 	
 </body>
