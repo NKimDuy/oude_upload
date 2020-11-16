@@ -11,16 +11,12 @@
 	{
 		while ($finfo = mysqli_fetch_field($query)) 
 		{
-			//$data[] = $finfo->name;
 			array_push($data,$finfo->name);
 		}
 		
 		echo json_encode( $data ); 
 	}
-	else
-	{
-		echo json_encode("fail");
-	}
+	
 	
 	
 ?> 
